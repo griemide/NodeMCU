@@ -3,6 +3,10 @@ Projects related to NodeMCU platforms
 
 Currently Using different versions of NodeMCU
 
-- [x] NodeMCU v0.9
+- [ ] NodeMCU v0.9
 - [x] NodeMCU v1.0 (**Amica** board)
-- [x] NodeMCU (**lolin** board)
+- [x] NodeMCU v2.0 (**lolin** board)
+
+## Prototyping
+
+DIN rail Wifi node (form factor 1TE)
