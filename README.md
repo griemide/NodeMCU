@@ -1,8 +1,8 @@
 # NodeMCU
-NodeMCU related projects
+Projects related to NodeMCU platforms
 
-Using different versions of NodeMCU
-Line 1
-<br/> Line 2
+Currently Using different versions of NodeMCU
 
-<div> Line 3
+- [x] NodeMCU v0.9
+- [x] NodeMCU v1.0 (**Amica** board)
+- [x] NodeMCU (**lolin** board)
