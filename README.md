@@ -1,6 +1,8 @@
 # NodeMCU
 Projects related to NodeMCU platforms
 
+[NodeMCU](/hardware/NodeMCUv1.png)
+
 Currently Using different versions of NodeMCU
 
 - [ ] NodeMCU v0.9
