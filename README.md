@@ -1,7 +1,7 @@
-# NodeMCU
+# NodeMCU                             .          ### [Wiki](https://github.com/griemide/NodeMCU/wiki)
 Projects related to NodeMCU platforms
 
-### [Wiki](https://github.com/griemide/NodeMCU/wiki)
+
 
 ![NodeMCU](/hardware/NodeMCUv1.png)
 
