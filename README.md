@@ -19,6 +19,7 @@ Currently Using different versions of NodeMCU
 
 ## Projects
 
-head1-head2
-row1|row2
-
+First Header | Second Header
+------------ | -------------
+Content cell 1 | Content cell 2
+Content column 1 | Content column 2
