@@ -19,8 +19,8 @@ Currently Using different versions of NodeMCU
 
 ## Projects
 
-Project        | Description     | MAC address       | Created    | Update     | Wiki
----------------|-----------------| ------------------|------------|------------|------
-Dweet.IO       | Dweet.io Lua    | 5c:cf:7f:0f:79:1f | 2016-02-15 | 2016-04-11 | n/a
-FM Radio       | FM radio Si4713 | 18:fe:34:d4:c7:4e | 2016-02-15 | 2016-04-11 | n/a
- ontent col    | OTA example     | 18:fe:34:e1:b4:3e | 2016-02-15 | 2016-04-11 | [Wiki](https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini)
+Project        | Description                  | MAC address       | Created    | Update     | Wiki
+---------------|------------------------------| ------------------|------------|------------|------
+Dweet.IO       | Lua example ntp, http (POST) | 5c:cf:7f:0f:79:1f | 2016-02-15 | 2016-04-11 | n/a
+FM Radio       | Si4713 breakout RDS          | 18:fe:34:d4:c7:4e | 2016-02-15 | 2016-04-11 | n/a
+Arduino OTA    | on Wemos D1 mini             | 18:fe:34:e1:b4:3e | 2016-05-15 | 2016-05-16 | [Wiki](https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini)
