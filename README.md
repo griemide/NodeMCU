@@ -15,6 +15,7 @@ Currently Using different versions of NodeMCU
 
 ## Network Configuration
 
+assign dedicated IP address to each ESP8266 device (e.g. DHCP-Reservierung on [D-Link](http:192.168.0.1) router)
 ![MAC](https://github.com/griemide/NodeMCU/blob/master/hardware/images/ESP8266overviewMACaddress.GIF)
 
 ## Projects
