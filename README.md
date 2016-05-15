@@ -13,6 +13,9 @@ Currently Using different versions of NodeMCU
 - [x] NodeMCU v2.0 (**lolin** board)
 - [x] Wemos D1 mini (see [Wiki](https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini) for details)
 
-## Prototyping
+## Network Configuration
 
-DIN rail Wifi node (form factor 1TE)
+![MAC](https://github.com/griemide/NodeMCU/blob/master/hardware/images/ESP8266overviewMACaddress.GIF)
+
+## Projects
+
