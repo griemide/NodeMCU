@@ -52,8 +52,18 @@ void setup(void){
   httpServer.begin();
 
   MDNS.addService("http", "tcp", 80);
+     
   Serial.println("HTTPUpdateServer ready!");
   Serial.printf("Open \nhttp://%s/update \nin browser\n", host);
+  Serial.println(ESP.getChipId());
+  String sESPchipID; 
+  sESPchipID = ESP.getChipId();  
+  Serial.println(sESPchipID);
+  char buf[12];
+  sESPchipID.toCharArray(buf, 10);
+  Serial.printf("ESP Chip-ID: %s\n", buf );
+  Serial.println(ESP.getFreeHeap());
+  Serial.println(ESP.getResetReason());  
 
   // Target Application Setup starts here
   pinMode(ledPin, OUTPUT);  // initialize onboard LED as output
