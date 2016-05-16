@@ -6,10 +6,17 @@
 #include "ESP8266HTTPUpdateServer.h"
 
 
+const char* ESP8266HTTPUpdateServer::_serverDefault =
+R"(<html><body><form method='POST' action='/update' enctype='multipart/form-data'>
+                  <input type='file' name='update'>
+                  <input type='submit' value='Default'>
+               </form>
+         </body></html>)";
+
 const char* ESP8266HTTPUpdateServer::_serverIndex =
 R"(<html><body><form method='POST' action='/update' enctype='multipart/form-data'>
                   <input type='file' name='update'>
-                  <input type='submit' value='Update'>
+                  <input type='submit' value='Hochladen'>
                </form>
          </body></html>)";
 
@@ -22,6 +29,13 @@ ESP8266HTTPUpdateServer::ESP8266HTTPUpdateServer(bool serial_debug)
 void ESP8266HTTPUpdateServer::setup(ESP8266WebServer *server)
 {
     _server = server;
+
+    // handler for the / form page
+    _server->on("/", HTTP_GET, [&](){
+      _server->sendHeader("Connection", "close");
+      _server->sendHeader("Access-Control-Allow-Origin", "*");
+      _server->send(200, "text/html", _serverDefault);
+    });
 
     // handler for the /update form page
     _server->on("/update", HTTP_GET, [&](){
