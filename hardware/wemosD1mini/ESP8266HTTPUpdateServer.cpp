@@ -7,11 +7,11 @@
 
 
 const char* ESP8266HTTPUpdateServer::_serverDefault =
-R"(<html><body><form method='POST' action='/update' enctype='multipart/form-data'>
-                  <input type='file' name='update'>
-                  <input type='submit' value='Default'>
-               </form>
-         </body></html>)";
+R"(<html><body>Wemos D1 mini (ESP8266)<br />
+   Software update via OTA supported<br />
+   <a href="http://192.168.0.43/update"> 
+   http://192.168.0.43/update<br /></a>
+</body></html>)";
 
 const char* ESP8266HTTPUpdateServer::_serverIndex =
 R"(<html><body><form method='POST' action='/update' enctype='multipart/form-data'>
