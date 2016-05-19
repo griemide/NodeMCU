@@ -15,11 +15,8 @@ const char pass[] = "vQ1tASKOUu";       // your network password
 
 // NTP Servers:
 static const char ntpServerName[] = "194.109.22.18";
-//static const char ntpServerName[] = "us.pool.ntp.org";
-//static const char ntpServerName[] = "time.nist.gov";
-//static const char ntpServerName[] = "time-a.timefreq.bldrdoc.gov";
-//static const char ntpServerName[] = "time-b.timefreq.bldrdoc.gov";
-//static const char ntpServerName[] = "time-c.timefreq.bldrdoc.gov";
+//static const char ntpServerName1[] = "ntp1.t-online.de";
+//static const char ntpServerName2[] = "time.nist.gov";
 
 const int timeZone = 1;     // Central European Time
 //const int timeZone = -5;  // Eastern Standard Time (USA)
@@ -83,13 +80,18 @@ void digitalClockDisplay()
   printDigits(month());
   Serial.print("-");
   printDigits(day());
-  Serial.print("_");
+  Serial.print(" ");
   Serial.print(hour());
   Serial.print(":");
   printDigits(minute());
   Serial.print(":");
   printDigits(second());
   Serial.println();
+  
+  char sTimestamp[50]; 
+  sprintf(sTimestamp, "NTP: %04d-%02d-%02d %02d:%02d:%02d", year(), month(), day(), hour(), minute(), second() );
+  Serial.println(sTimestamp);
+
 }
 
 void printDigits(int digits)
