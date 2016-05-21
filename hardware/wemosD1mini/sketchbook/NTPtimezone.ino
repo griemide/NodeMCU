@@ -180,12 +180,17 @@ void printTime(time_t t)
 
 void setup()
 {
-	DBG_OUTPUT_PORT.begin(76400);
+	DBG_OUTPUT_PORT.begin(74880);
 	DBG_OUTPUT_PORT.setDebugOutput(true);
 	DBG_OUTPUT_PORT.println(F("ArduinoClub-NTP-Timezone"));
 
+  Serial.print("Complied on (unix epoche): ");
+  Serial.println(compileTime());
+  Serial.print(__DATE__); Serial.print(" "); Serial.println(__TIME__);
+
 	WiFi.mode(WIFI_STA);
 	WiFi.begin(WiFiSSID, WiFiPSK);
+
 
 	if (isConnected(30)) {
 		wasConnected = true;
