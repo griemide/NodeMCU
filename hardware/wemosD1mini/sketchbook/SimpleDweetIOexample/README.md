@@ -1,7 +1,10 @@
 ### Simple Dweet.IO Get Example
 
-Preconditions: another IoT device is sending data to Dweet.IO server with rewuested key infomation
-E.g. see NoceMCU Lua project 
+####Preconditions: 
+
+>another IoT device is sending data to Dweet.IO server with requested key infomation (key shown below)
+
+>E.g. see corresponding Lua script project for NodeMCU v1.0
 
 ```C++
 #include "dweetESP8266.h"
