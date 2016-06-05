@@ -26,7 +26,8 @@ String dweet::getDweet(char* thing_name, char* key){
   int length = dweetKey.length();
 
   if (_client.connect(SERVER, PORT)){
-        Serial.println(F("Geting your variable"));
+        //Serial.println(F("geting your variable"));
+        Serial.println(F("\n\nrequesting value of given key ...")); // M. Gries, 2016-06-05
         // Make a HTTP request:
         _client.print(F("GET /get/latest/dweet/for/"));
         _client.print(thing_name);
@@ -44,17 +45,18 @@ String dweet::getDweet(char* thing_name, char* key){
     Serial.println(response);
     bodyPosinit =4+ response.indexOf("\r\n\r\n");
     response = response.substring(bodyPosinit);
-    Serial.println(response);
+    // Serial.println(response); // M,Gries
 
     bodyPosinit =10+ response.indexOf("\"content\"");
     bodyPosend = response.indexOf("}]}");
     response = response.substring(bodyPosinit,bodyPosend);
-    Serial.println(response);
+    // Serial.println(response); M. Gries
 
     if (response.indexOf(dweetKey) == -1) {
       value = "Key not found";
     } else {
-      StaticJsonBuffer<200> jsonBuffer;
+      //StaticJsonBuffer<200> jsonBuffer;   //M. Gries, 2016-06-05
+      StaticJsonBuffer<500> jsonBuffer;
       JsonObject& root = jsonBuffer.parseObject(response);
         if (!root.success()){
           Serial.println("parseObject() failed");
