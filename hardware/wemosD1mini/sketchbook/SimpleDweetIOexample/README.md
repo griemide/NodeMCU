@@ -1,5 +1,11 @@
 ### Simple Dweet.IO Get Example
 
+Homepage [dweet.io](https://dweet.io/)
+
+[Play with dweet](https://dweet.io/play/)
+
+![API](DweetAPI.GIF)
+
 ####Preconditions: 
 
 >another IoT device is sending data to Dweet.IO server with requested key infomation (key shown below)
