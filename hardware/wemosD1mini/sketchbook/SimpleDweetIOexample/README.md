@@ -9,7 +9,6 @@
 #include "dweetESP8266.h"
 #define THIG_NAME  "af104-test"  // Put here your thing name
 #define key  "date_Time"  // Put here your requested key
-}
 ```
 
 ```C++
