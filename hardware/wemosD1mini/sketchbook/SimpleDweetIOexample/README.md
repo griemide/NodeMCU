@@ -3,7 +3,6 @@
 ####Preconditions: 
 
 >another IoT device is sending data to Dweet.IO server with requested key infomation (key shown below)
-
 >E.g. see corresponding Lua script project for NodeMCU v1.0
 
 ```C++
