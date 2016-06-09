@@ -1,6 +1,9 @@
 /*
  * M. Gries 2016-05-30
+ * modified 2016-05-09: PROGMEN  controls removed
  * File: SimpleFTPclient
+ * 
+ * Successful coplied and tested with Arduino IDE 1.6.7
  * 
  * granted from:
  * File: WiWi_FTP_Client.ino for ESP8266 NodeMCU
@@ -210,23 +213,27 @@ byte doFTP(boolean upload) {
 
   if (!eRcv()) return 0;
   if (debug) Serial.println("Send USER");
-  client.println(F("USER 3376-227"));
+  client.println("USER 3376-227");
 
   if (!eRcv()) return 0;
   if (debug) Serial.println("Send PASSWORD");
-  client.println(F("PASS 45780176"));
+  // client.println(F("PASS 45780176"));
+  client.println("PASS 45780176");
 
-  if (!eRcv()) return 0;
+  if (!eRcv()) {
+    if (debug) Serial.println("eRev Error");
+    return 0;
+  }
   if (debug) Serial.println("Send SYST");
-  client.println(F("SYST"));
+  client.println("SYST");
 
   if (!eRcv()) return 0;
   if (debug) Serial.println("Send Type I");
-  client.println(F("Type I"));
+  client.println("Type I");
 
   if (!eRcv()) return 0;
   if (debug) Serial.println("Send PASV");
-  client.println(F("PASV"));
+  client.println("PASV");
 
   if (!eRcv()) return 0;
 
