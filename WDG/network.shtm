@@ -1,0 +1,65 @@
+﻿<!-- (C)2016, Michael Gries, version 16.6.11, www.gries.name //-->
+<html>
+<head>
+    <title>Network</title>
+    <link rel="shortcut icon" type="image/x-icon" href="fing.png" />
+    <link rel="apple-touch-icon-precomposed" href="fing.png" />
+    <script type="text/javascript">
+        if ((document.layers)&&(history.length==1)) 
+            location.href=location.href+"#";</script>
+    <script type="text/javascript" src="AF104net.txt"></script>
+    <script type="text/javascript" src="diagram.js"></script>
+    <script type="text/javascript" src="DayDiagram.js"></script>
+    <script type="text/javascript" src="Day.js"></script>   
+    <meta   http-equiv="refresh" content="60" /> 
+</head>
+<body>
+    <div style="position:absolute; top:0"></div>
+    <table cellpadding="2" cellspacing="2" width="1440">
+        <tr><td><h3>Watchdog Projekt für AF104 Network Monitoring</h3></td></tr>
+        <tr><td> 
+        <a id="VRC" title="Projektdokumentation" accesskey="V"
+           href="http://www.gries.name/VRC/Monitor.htm" >
+           Project Wiki
+        </a>  
+        - 
+        <a id="VRC" title="VRC Monitor" accesskey="C"
+            href="http://www.gries.name/projekte/vrc/vrc.htm" >
+            Github
+        </a>
+        -
+        <a id="MapAF104" title="mit Google Maps" accesskey="A"
+           href="http://www.gries.name/Gries/home.htm" >
+           Standort ( 50° 52' 37&quot; N / 9° 41' 28&quot; E )
+        </a>
+        </td></tr>
+    </table>
+    
+    <script type="text/javascript">
+        buildDayDiagram();
+    </script>
+
+    <div style="position:absolute; top:460; left: 30px; font-family: Arial; font-size: xx-small">
+        <b title="Zuletzt ge&auml;ndert 2016-06-12" style="font-family: Arial; font-size: xx-small">
+            (c) 2016, 
+        </b>
+        <a id="A1" title="Homepage" 
+            href="../Michael/Gries.shtm" style="font-family: Arial; font-size: xx-small; color: #000000;">
+           Michael Gries</a> ---  
+        <a id="A2" title="Rohdaten VRC 410" 
+            href="AF104net.txt" style="font-family: Arial; font-size: xx-small; color: #000000;">
+           last server update:</a>   
+        <!--#flastmod file="AF104net.txt" --> 
+        <br />
+    </div>    
+    <div style="position:absolute; top:104px; left:200px;">
+        <b style="font-family: Arial; font-size: xx-small; color: #000080;">
+        MAC :   
+        <!--#include virtual="MAC.txt" --> 
+        <!--Note: do not use backslash if file is in same folder-->
+        </b><br />
+    </div>
+    
+
+</body>
+</html>
