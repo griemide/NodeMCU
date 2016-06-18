@@ -1,16 +1,18 @@
 /*
- * SimpleDeepSleepTest.ino 
+ * SKETCH:
+ *  SimpleDeepSleepTest.ino 
  * 
- * (c) 2016, Michael Gries
- * Creation: 2016-06-15 (based on Sparkfun tutorial ESP8266_Phant_Sleep)
- * Modified: 2016-06-17 (BUITIN_LED support added to indicate Active Mode)
+ *  (c) 2016, Michael Gries
+ *  Creation: 2016-06-15 (based on Sparkfun tutorial ESP8266_Phant_Sleep)
+ *  Modified: 2016-06-17 (BUITIN_LED support added to indicate Active Mode)
  * 
- * PREREQUISITE (for Deep-Sleep Wake mode)
- * for Wemos D1 mini: connect pin RST with D0 (GPIO16)
- * for NodeMCU: shortcut both pads of the not mounted resitor R3
- * (otherwise if GPIO16 can't trigger RST than ESP8266 will respond with ets_main.c)
+ * PREREQUISITE (for Deep-Sleep Wake mode):
+ *   for Wemos D1 mini: connect pin RST with D0 (GPIO16)
+ *   for NodeMCU: shortcut both pads of the not mounted resitor R3
+ *   (otherwise if GPIO16 can't trigger RST than ESP8266 will respond with ets_main.c)
  *  
- * see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleep
+ * LINKS:
+ *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleep
  * 
  */
 
@@ -24,8 +26,7 @@ const int brightnessLED    = 512;   // 0..1023 (0=full)
 const int sleepTimeSeconds = 15;    // * 1E6 
 
 void setup() {
-  Serial.begin(SerialBaudrate);
-  delay(10);
+  Serial.begin(SerialBaudrate);  delay(10);
   pinMode(BUILTIN_LED, OUTPUT);  // initialize onboard LED 
   analogWrite(BUILTIN_LED, brightnessLED);
   Serial.println();
@@ -43,7 +44,8 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   // activate Deep-Sleep Wake mode
-  Serial.print(__func__); Serial.println(": activating Deep-Sleep Wake mode");
+  Serial.print(__func__); Serial.print(": activating Deep-Sleep Wake mode for ");
+  Serial.print(sleepTimeSeconds); Serial.println(" seconds");
   ESP.deepSleep(sleepTimeSeconds * 1E6);
 }
 
