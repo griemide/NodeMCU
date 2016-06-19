@@ -5,7 +5,7 @@
  *  (c) 2016, Michael Gries
  *  Creation: 2016-06-15 (based on Sparkfun tutorial ESP8266_Phant_Sleep)
  *  Modified: 2016-06-17 (BUITIN_LED support added to indicate Active Mode)
- *  Modified: 2016-06-19 (editorial changes)
+ *  Modified: 2016-06-19 (editorial changes, milliseconds after reset added)
  * 
  * PREREQUISITES (hardware dependencies for Deep-Sleep Wake mode):
  *   for Wemos D1 mini: connect pin RST with D0 (GPIO16)
