@@ -12,8 +12,8 @@
  *   (otherwise if GPIO16 can't trigger RST than ESP8266 will respond with ets_main.c)
  *  
  * LINKS:
- *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleep
- * 
+ *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleepModule/EDSM.ino  
+ *    
  * ISSUES:
  *   see: https://github.com/esp8266/Arduino/issues/1363
  *   

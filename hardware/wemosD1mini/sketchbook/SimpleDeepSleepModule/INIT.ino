@@ -10,8 +10,8 @@
  *   uses BUILTIN_LED
  *  
  * LINKS:
- *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleep
- * 
+ *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleepModule/INIT.ino  
+ *  
  * ISSUES:
  *   none
  *   

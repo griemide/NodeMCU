@@ -10,7 +10,7 @@
  *   uses predefined local IP addresses or global hostnames via DNS
  *  
  * LINKS:
- *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleep
+ *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleepModule/PING.ino 
  * 
  * ISSUES:
  *   none

@@ -20,6 +20,7 @@
 //// DECLARATIONS
 void InitializeModule(); 
 void ConnectingToWLAN();
+void GetTimeNTPServer();
 void PingLocalClients();
 void PingRemoteServer();
 void EspDeepSleepMode();
@@ -31,6 +32,8 @@ void setup()
   InitializeModule(); // ESP-12E based boards
   
   ConnectingToWLAN(); // Connect to local WiFi network
+
+  GetTimeNTPServer(); // use NTP server time for timestamp logging
 
   PingLocalClients(); // monitor reachability of local network clients 
 
