@@ -4,7 +4,7 @@
  * 
  *  (c) 2016, Michael Gries
  *  Creation: 2016-06-22 (based on SimpleDeepSleepTest.ino)
- *  Modified: 2016-06-23 (editorial changes)
+ *  Modified: 2016-06-24 (editorial changes)
  * 
  * PREREQUISITES:
  *   uses BUILTIN_LED
