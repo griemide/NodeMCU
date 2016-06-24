@@ -1,9 +1,9 @@
 /*
  * SKETCH:
- *  INIT.ino 
+ *  NTP.ino 
  * 
  *  (c) 2016, Michael Gries
- *  Creation: 2016-06-22 (based on SimpleDeepSleepTest.ino)
+ *  Creation: 2016-06-22 (based on NTPtimezone.ino)
  *  Modified: 2016-06-24 (editorial changes)
  * 
  * PREREQUISITES:
@@ -11,6 +11,8 @@
  *  
  * LINKS:
  *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleepModule/INIT.ino  
+ *   see https://de.wikipedia.org/wiki/Network_Time_Protocol  for application layer
+ *   see https://de.wikipedia.org/wiki/User_Datagram_Protocol for transport layer
  *  
  * ISSUES:
  *   none
@@ -23,8 +25,8 @@
 #include <Timezone.h>     // by Jack Christensen, not included in the Arduino IDE !!!
 
 //// DECLARATIONS
-WiFiUDP        Udp;                   // ESP8266mDNS.h
-unsigned int   localPort = 123;
+WiFiUDP        UDP;             // ESP8266mDNS.h
+unsigned int   localPort = 123; // NTP uses port 123
 char           ntpServerName1[] = "ntp1.t-online.de";
 char           ntpServerName2[] = "time.nist.gov";
 const int      NTP_PACKET_SIZE = 48;  // NTP time is in the first 48 bytes of message
@@ -34,7 +36,7 @@ time_t         local;
 TimeChangeRule CEST = { "CEST", Last, Sun, Mar, 2, 120 };     //Central European Summer Time
 TimeChangeRule CET = { "CET ", Last, Sun, Oct, 3, 60 };       //Central European Standard Time
 Timezone       CE(CEST, CET);
-TimeChangeRule *tcr;                   //pointer to the time change rule, use to get the TZ abbrev
+TimeChangeRule *tcr;             // pointer to the time change rule, use to get the TZ abbrev
 
 
 
@@ -55,9 +57,9 @@ void sendNTPpacket(IPAddress &address) // send an NTP request to the time server
   packetBuffer[15] = 52;
   // all NTP fields have been given values, now
   // you can send a packet requesting a timestamp:
-  Udp.beginPacket(address, 123); //NTP requests are to port 123
-  Udp.write(packetBuffer, NTP_PACKET_SIZE);
-  Udp.endPacket();
+  UDP.beginPacket(address, 123); //NTP requests are to port 123
+  UDP.write(packetBuffer, NTP_PACKET_SIZE);
+  UDP.endPacket();
 }
 
 
@@ -71,7 +73,7 @@ bool getNtpTime(char* ntpServerName)
 
   IPAddress ntpServerIP; // NTP server's ip address
 
-  while (Udp.parsePacket() > 0); // discard any previously received packets
+  while (UDP.parsePacket() > 0); // discard any previously received packets
   Serial.println(F("Transmit NTP Request"));
   // get a random server from the pool
   WiFi.hostByName(ntpServerName, ntpServerIP);
@@ -80,14 +82,14 @@ bool getNtpTime(char* ntpServerName)
   Serial.println(ntpServerIP);
   sendNTPpacket(ntpServerIP);
   uint32_t beginWait = millis();
-  while (millis() - beginWait < 1500) {
-    int size = Udp.parsePacket();
+  while (millis() - beginWait < 2500) {
+    int size = UDP.parsePacket();
     if (size >= NTP_PACKET_SIZE) {
       Serial.println(F("Receive NTP Response"));
-      Udp.read(packetBuffer, NTP_PACKET_SIZE);  // read packet into the buffer
+      UDP.read(packetBuffer, NTP_PACKET_SIZE);  // read packet into the buffer
       unsigned long secsSince1900;
       // convert four bytes starting at location 40 to a long integer
-      secsSince1900 = (unsigned long)packetBuffer[40] << 24;
+      secsSince1900  = (unsigned long)packetBuffer[40] << 24;
       secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
       secsSince1900 |= (unsigned long)packetBuffer[42] << 8;
       secsSince1900 |= (unsigned long)packetBuffer[43];
@@ -102,13 +104,12 @@ bool getNtpTime(char* ntpServerName)
 
 void GetTimeNTPServer()
 {
+  Serial.print(__func__); Serial.print(": starting UDP port ");
+  UDP.begin(localPort);
+  Serial.print(UDP.localPort()); Serial.println(" ...");
   if (!getNtpTime(ntpServerName1)) { getNtpTime(ntpServerName2); }
   local = CE.toLocal(now(), &tcr);
   Serial.print(__func__); Serial.print(": Get time from NTP server (");   Serial.print(ntpServerName1); Serial.println(") ...");
-  Serial.print(__func__); Serial.print(": ");   Serial.println(local); 
+  Serial.print(__func__); Serial.print(": ");   Serial.println(now()); 
 }
-
-
-
-
 

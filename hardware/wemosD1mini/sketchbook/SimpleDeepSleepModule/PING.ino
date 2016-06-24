@@ -28,7 +28,7 @@ int   avg_time_ms;
 //// FUNCTIONS
 void PingLocalClients()
 {
-  Serial.print(__func__); Serial.print(": Pinging ");   Serial.print(local_ip); Serial.println("(5 times, default) ...");
+  Serial.print(__func__); Serial.print(": pinging ");   Serial.print(local_ip); Serial.println("(5 times, default) ...");
   if(Ping.remoteIP(local_ip)) {
     avg_time_ms = Ping.averageTime();
     Serial.print(__func__); Serial.print(": average time "); Serial.print(avg_time_ms); Serial.println(" ms");
