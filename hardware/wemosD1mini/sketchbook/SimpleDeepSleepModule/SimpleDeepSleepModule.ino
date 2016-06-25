@@ -5,6 +5,14 @@
  *  (c) 2016, Michael Gries
  *  Creation: 2016-06-15 (based on Sparkfun tutorial ESP8266_Phant_Sleep)
  *  Modified: 2016-06-23 (Sketch SimpleDeepsSleepTest rearanged to module structure)
+ *  Modified: 2016-06-25 (__FILE__ handling and printing added)
+ *  
+ * MODULES:
+ *   EDSM.ino
+ *   INIT.ino  
+ *   PING.ino
+ *   SNTP.ino
+ *   WLAN.ino
  * 
  * PREREQUISITES:
  *   ESP8266 based hardware (NodeMCU or Wemos D1 mini)
@@ -18,6 +26,7 @@
  */
 
 //// DECLARATIONS
+char FilenameWithPath[] = __FILE__;
 void InitializeModule(); 
 void ConnectingToWLAN();
 void GetTimeNTPServer();
@@ -29,7 +38,11 @@ void EspDeepSleepMode();
 //// APPLICATION 
 void setup() 
 {
-  InitializeModule(); // ESP-12E based boards
+  byte b = sizeof(FilenameWithPath);
+  while ( (b > 0) && (FilenameWithPath[b] != '\\')) b--;
+  char *sketchName = &FilenameWithPath[++b];
+  
+  InitializeModule(sketchName); // ESP-12E based boards
   
   ConnectingToWLAN(); // Connect to local WiFi network
 
