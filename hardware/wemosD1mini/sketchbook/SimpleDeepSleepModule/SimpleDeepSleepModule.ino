@@ -8,11 +8,11 @@
  *  Modified: 2016-06-25 (__FILE__ handling and printing added)
  *  
  * MODULES:
- *   EDSM.ino
- *   INIT.ino  
- *   PING.ino
- *   SNTP.ino
- *   WLAN.ino
+ *   EDSM.ino version 16.6.25 (Esp8266 Deep Sleep Mode)
+ *   INIT.ino version 16.6.25 (INITialze hardware)
+ *   PING.ino version 16.6.23 (PING clients and hosts)
+ *   SNTP.ino version 16.6.27 (Simple Network Time Protocol)
+ *   WLAN.ino version 16.6.27 (connect to local Wireless LAN) 
  * 
  * PREREQUISITES:
  *   ESP8266 based hardware (NodeMCU or Wemos D1 mini)

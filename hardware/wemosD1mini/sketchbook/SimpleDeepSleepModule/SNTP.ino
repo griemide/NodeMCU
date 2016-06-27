@@ -4,16 +4,18 @@
  * 
  *  (c) 2016, Michael Gries
  *  Creation: 2016-06-22 (based on NTPtimezone.ino)
- *  Modified: 2016-06-24 (editorial changes)
+ *  Modified: 2016-06-27 (change system time from UTC to CE)
  * 
  * PREREQUISITES:
  *   uses BUILTIN_LED
  *  
  * LINKS:
- *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleepModule/INIT.ino  
- *   see https://de.wikipedia.org/wiki/Network_Time_Protocol  for application layer
+ *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleepModule/SNTP.ino  
+ *   see https://de.wikipedia.org/wiki/User_Datagram_Protocol (transport layer)
+ *   see https://de.wikipedia.org/wiki/Network_Time_Protocol  (application layer)
  *   see https://tools.ietf.org/html/rfc4330 (RFC 4330 for SNTP IPv4)
- *   see https://de.wikipedia.org/wiki/User_Datagram_Protocol for transport layer
+ *   see https://github.com/PaulStoffregen/Time (by Paul Stoffregen)
+ *   see https://github.com/JChristensen/Timezone (by Jack Christensen)
  *  
  * ISSUES:
  *   none
@@ -35,8 +37,8 @@ byte           packetBuffer[NTP_PACKET_SIZE]; //buffer to hold incoming &amp; ou
 time_t         utc;
 time_t         local;
 TimeChangeRule *tcr;             // pointer to the time change rule, use to get the TZ abbrev
-TimeChangeRule CEST = { "CEST", Last, Sun, Mar, 2, 120 };     //Central European Summer Time
-TimeChangeRule CET = { "CET ", Last, Sun, Oct, 3, 60 };       //Central European Standard Time
+TimeChangeRule CEST = { "CEST", Last, Sun, Mar, 2, 120 };     // Central European Summer Time  (MESZ)
+TimeChangeRule CET = { "CET ", Last, Sun, Oct, 3, 60 };       // Central European Standard Time (MEZ)
 Timezone       CE(CEST, CET);
 
 
@@ -45,20 +47,20 @@ void sendNTPpacket(IPAddress &address) // send an NTP request to the time server
 {
   // set all bytes in the buffer to 0
   memset(packetBuffer, 0, NTP_PACKET_SIZE);
-  // Initialize values needed to form NTP request
-  // (see URL above for details on the packets)
-  packetBuffer[0] = 0b11100011;   // LI, Version, Mode
-  packetBuffer[1] = 0;     // Stratum, or type of clock
-  packetBuffer[2] = 6;     // Polling Interval
-  packetBuffer[3] = 0xEC;  // Peer Clock Precision
-               // 8 bytes of zero for Root Delay &amp; Root Dispersion
-  packetBuffer[12] = 49;
+  // Initialize values needed to form valid NTP request
+  // (see URL  for details on the packets - https://tools.ietf.org/html/rfc4330)
+  packetBuffer[0] = 0b11100011; // LI, Version, Mode
+  packetBuffer[1] = 0;          // Stratum, or type of clock
+  packetBuffer[2] = 6;          // Polling Interval
+  packetBuffer[3] = 0xEC;       // Peer Clock Precision
+  // [4] .. [11] (8 bytes of zero for Root Delay and Root Dispersion)
+  packetBuffer[12] = 49;        
   packetBuffer[13] = 0x4E;
   packetBuffer[14] = 49;
   packetBuffer[15] = 52;
-  // all NTP fields have been given values, now
-  // you can send a packet requesting a timestamp:
-  UDP.beginPacket(address, 123); //NTP requests are to port 123
+  // all relevant NTP fields have been given values, next:
+  // send packet to NTP server requesting a timestamp
+  UDP.beginPacket(address, 123);   //NTP requests sent to port 123
   UDP.write(packetBuffer, NTP_PACKET_SIZE);
   UDP.endPacket();
 }
@@ -93,17 +95,25 @@ bool getNtpTime(char* ntpServerName)
 
 void GetTimeNTPServer()
 {
-  Serial.print(__func__); Serial.print(": starting UDP service on port ");
+  // Serial.println(now()); // only for debug purposes (here: showing seconds after boot)
+  Serial.print(__func__); Serial.print(": starting UDP service for NTP (Port: ");
   UDP.begin(localPort);
-  Serial.print(UDP.localPort()); Serial.println(" (for NTP) ...");
+  Serial.print(UDP.localPort()); Serial.println(") ");
+  Serial.print(__func__); Serial.print(": Get time from NTP server (");   Serial.print(ntpServerName1); Serial.println(") ...");
   if (!getNtpTime(ntpServerName1)) { 
-    Serial.print(__func__); Serial.println(": no response by NTP service - try next server");
+    Serial.print(__func__); Serial.print(": no response by NTP service - try next server \n\r");
+    Serial.print(__func__); Serial.print(": Get time from NTP server (");   Serial.print(ntpServerName2); Serial.println(") ...");
     getNtpTime(ntpServerName2); 
   }
-  local = CE.toLocal(now(), &tcr);
-  Serial.print(__func__); Serial.print(": Get time from NTP server (");   Serial.print(ntpServerName1); Serial.println(") ...");
-  char sTimestamp[50]; 
-  sprintf(sTimestamp, "NTP: %04d-%02d-%02d %02d:%02d:%02d UTC (%d)", year(), month(), day(), hour(), minute(), second(), now() );
-  Serial.print(__func__); Serial.print(": ");  Serial.println(sTimestamp); 
+  char sTimestampUTC[50]; 
+  sprintf(sTimestampUTC, "NTP:   %04d-%02d-%02d %02d:%02d:%02d UTC (%d)", year(), month(), day(), hour(), minute(), second(), now() );
+  Serial.print(__func__); Serial.print(": ");  Serial.println(sTimestampUTC); 
+  // change time from UTC to Local Time (according given TimechangeRule)
+  local = CE.toLocal(now(), &tcr); // determine local time based on defined Timezone (i.e. CE - Central Europe) 
+  // Serial.println(local); only for debug purposes (here: showing unix epoche time of local time seconds)
+  setTime(local); // <Timelib.h>
+  char sTimestampLOCAL[50]; 
+  sprintf(sTimestampLOCAL, "LOCAL: %04d-%02d-%02d %02d:%02d:%02d CE  (%d)", year(), month(), day(), hour(), minute(), second(), local );
+  Serial.print(__func__); Serial.print(": ");  Serial.println(sTimestampLOCAL); 
 }
 
