@@ -8,6 +8,7 @@
  *  Modified: 2016-06-25 (__FILE__ handling and printing added)
  *  
  * MODULES:
+ *   DWIO.ino version 16.6.28 (DWeet.IO data monitoring)
  *   EDSM.ino version 16.6.25 (Esp8266 Deep Sleep Mode)
  *   INIT.ino version 16.6.25 (INITialze hardware)
  *   PING.ino version 16.6.23 (PING clients and hosts)
@@ -27,11 +28,12 @@
 
 //// DECLARATIONS
 char FilenameWithPath[] = __FILE__;
-void InitializeModule(); 
+void InitializeModule(char* sketchName); 
 void ConnectingToWLAN();
 void GetTimeNTPServer();
 void PingLocalClients();
 void PingRemoteServer();
+void DweetIOmessaging();
 void EspDeepSleepMode();
 
 
@@ -51,6 +53,8 @@ void setup()
   PingLocalClients(); // monitor reachability of local network clients 
 
   PingRemoteServer(); // monitor reachability of remote ftp server
+
+  DweetIOmessaging(); // sharing Internet of Things data to server
   
   EspDeepSleepMode(); // activate ESP-12E Deep-Sleep Wake mode
 }
