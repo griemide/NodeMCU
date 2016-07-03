@@ -5,6 +5,7 @@
  *  (c) 2016, Michael Gries
  *  Creation: 2016-06-28 (based on SimpleTestDweetIO.ino)
  *  Modified: 2016-06-28 (function DweetIOmessaging added)
+ *  Modified: 2016-07-04 (ESP.getFreeHeap() added to Dweet)
  * 
  * PREREQUISITES:
  *   uses predefined local WiFi network
@@ -20,6 +21,7 @@
  */
  
 #include <ESP8266WiFi.h>
+#include <TimeLib.h>      // by Paul Stoffregen, not included in the Arduino IDE !!!
 #define  DWEET_IO_THING_NAME  "af104-D1mini"  // IoT test device name
 
 ////  DECLARATIONS
@@ -35,6 +37,10 @@ void DweetIOmessaging(){
     return;
   }
   Serial.print(__func__); Serial.print(": TCP: port 80 connected, HTTP: sent data to "); Serial.println(host);
+  char TimeStamp[20]; 
+  sprintf(TimeStamp, "%04d-%02d-%02d_%02d:%02d:%02d", year(), month(), day(), hour(), minute(), second() );
+  //Serial.println(TimeStamp);
+  
   //
   // send the request to the server https://dweet.io/follow/af104-D1mini
   //
@@ -44,7 +50,11 @@ void DweetIOmessaging(){
                       + "&" 
                       + "Millis=" + millis() 
                       + "&" 
-                      + "Version=" + __VERSION__ 
+                      + "TimeStamp=" + TimeStamp 
+                      + "&" 
+                      + "FreeHeap=" + ESP.getFreeHeap() 
+                      + "&" 
+                      + "ToolVersion=" + __VERSION__ 
                       + " "
                       + "HTTP/1.1\r\n" 
                       + "Host: " + host + "\r\n" 

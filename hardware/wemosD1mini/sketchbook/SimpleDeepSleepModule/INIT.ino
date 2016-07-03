@@ -6,6 +6,7 @@
  *  Creation: 2016-06-22 (based on SimpleDeepSleepTest.ino)
  *  Modified: 2016-06-23 (editorial changes)
  *  Modified: 2016-06-25 (sketch name added - see __FILE__ handling in main application)
+ *  Modified: 2016-07-03 (DEBUG: Serial.setDebugOutput(true) added)
  * 
  * PREREQUISITES:
  *   uses BUILTIN_LED
@@ -18,6 +19,8 @@
  *   
  */
 
+#define WIFI_DEBUG false
+
 // DECLARATIONS
 const int   SERIAL_BAUDRATE     = 74880; // Wemos D1 mini default
 const int   LED_BRIGHTNESS      = 512;   // 0..1023 (0=full)
@@ -25,6 +28,9 @@ const int   LED_BRIGHTNESS      = 512;   // 0..1023 (0=full)
 void InitializeModule(char* sketchName) 
 {
   Serial.begin(SERIAL_BAUDRATE);  delay(10);
+  if(WIFI_DEBUG) {
+    Serial.setDebugOutput(true); // prints additional information of WiFi connection
+  }
   pinMode(BUILTIN_LED, OUTPUT);  // initialize onboard LED 
   analogWrite(BUILTIN_LED, LED_BRIGHTNESS);
   Serial.println();

@@ -8,9 +8,9 @@
  *  Modified: 2016-06-25 (__FILE__ handling and printing added)
  *  
  * MODULES:
- *   DWIO.ino version 16.6.28 (DWeet.IO data monitoring)
+ *   DWIO.ino version 16.7.4  (DWeet.IO data monitoring)
  *   EDSM.ino version 16.6.25 (Esp8266 Deep Sleep Mode)
- *   INIT.ino version 16.6.25 (INITialze hardware)
+ *   INIT.ino version 16.7.3  (INITialze hardware)
  *   PING.ino version 16.6.23 (PING clients and hosts)
  *   SNTP.ino version 16.6.27 (Simple Network Time Protocol)
  *   WLAN.ino version 16.6.27 (connect to local Wireless LAN) 
@@ -28,13 +28,16 @@
 
 //// DECLARATIONS
 char FilenameWithPath[] = __FILE__;
+char* CurrentTimestamp;
+
 void InitializeModule(char* sketchName); 
 void ConnectingToWLAN();
-void GetTimeNTPServer();
+char* GetTimeNTPServer();
 void PingLocalClients();
 void PingRemoteServer();
 void DweetIOmessaging();
 void EspDeepSleepMode();
+
 
 
 //// APPLICATION 
@@ -48,7 +51,7 @@ void setup()
   
   ConnectingToWLAN(); // Connect to local WiFi network
 
-  GetTimeNTPServer(); // use NTP server time for timestamp logging
+  CurrentTimestamp = GetTimeNTPServer(); // use NTP server time for timestamp logging
 
   PingLocalClients(); // monitor reachability of local network clients 
 
