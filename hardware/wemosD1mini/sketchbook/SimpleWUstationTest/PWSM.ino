@@ -5,7 +5,7 @@
  *  (c) 2016, Michael Gries
  *  Creation: 2016-07-30 (Personal Weather Station PWS for weatherstation.wunderground.com)
  *  Modified: 2016-07-31 (feasability study - basis tests by using wiki.wundergrund.com example)
- *  Modified: 2016-08-01 (outdoor temperature added)
+ *  Modified: 2016-08-03 (outdoor temperature added)
  * 
  * PREREQUISITES:
  *   uses predefined local WiFi network
@@ -27,12 +27,19 @@
 #define  WU_SERVER   "weatherstation.wunderground.com"  // see example above
 #define  PWS_ID      "ID=IBADHERS8"                     // check your WU login profile
 #define  PWS_PWD     "PASSWORD=1tqx3ixw"                // check your WU login profile
-#define  PWS_TEMP    "70.2"                             // test temperature (Fahrenheit)
-#define  PWS_VERSION "16.7.31"                          // udtae according modified date of this file
+#define  PWS_VERSION "16.8.3"                           // udtae according modified date of this file
 #define  PWS_ACTION  "action=updateraw"                 // sending raw data (default)
 
 ////  DECLARATIONS
 const char* WUhost = WU_SERVER;
+const float pi = 3.14;
+const int SecondsPerDay = 24 * 3600;
+void  TempToString();
+float Tc;
+float Tf;
+char  sTc[12];
+char  sTf[12];
+
 
 void PWSMessageUpdate(){
   // Use WiFiClient class to create TCP connections
@@ -52,8 +59,21 @@ void PWSMessageUpdate(){
   // Serial.print(__func__); Serial.print(": TimeStamp (debug info): "); Serial.println(TimeStamp); // for debug purpose only 
   // debug test result: 2016-07-31+19%3A17%3A27
 
-  String PWStemp;
-  PWStemp = minute() / 6 + 70.2;
+  //float HMS = hour()+minute()/60.0;             // https://de.wikipedia.org/wiki/Industrieminute
+  //float TcDelta = HMS * 15.0;                   // i.e. 24 hour == 360°  (for sine cycle below)
+  int iSec = second()+minute()*60+hour()*3600;
+  Tc = gfTempOutdoor + sin(iSec*2*pi/SecondsPerDay);  // i.e. one periodic cycle per day (variies around giTempOutdoor for test purposes)
+  Tf = Tc * (9.0/5.0) + 32.0;             // https://de.wikipedia.org/wiki/Grad_Fahrenheit
+
+  TempToString();  
+  
+  String PWStemp(sTf);                // i.e. one periodic cycle per day (variies around giTempOutdoor for test purposes)
+  
+
+
+  char PWStempDebug[40]; 
+  sprintf(PWStempDebug, "iSec: %d Tc: %s Tf: %s", iSec, sTc, sTf );
+  Serial.print(__func__); Serial.print(": PWStempDebug (debug info): "); Serial.println(PWStempDebug); // for debug purpose only 
   Serial.print(__func__); Serial.print(": PWStemp (debug info): "); Serial.println(PWStemp); // for debug purpose only 
 
   String httpPayload;
@@ -75,7 +95,7 @@ void PWSMessageUpdate(){
                       + "Connection: close\r\n\r\n"
                       ;
 
-  Serial.println(httpPayload); // for debug purposes only 
+  //Serial.println(httpPayload); // for debug purposes only 
   client.print(httpPayload);
   delay(10);
   // Read all the lines of the reply from server and print them to Serial
@@ -92,3 +112,12 @@ void PWSMessageUpdate(){
   }
   Serial.print(__func__); Serial.print(": HTTP (server response): "); Serial.println(httpStatusLine);
 }
+
+
+void TempToString() {
+  signed char minStringWidthIncDecimalPoint = 4;
+  unsigned char numVarsAfterDecimal = 1;
+  dtostrf(Tc, minStringWidthIncDecimalPoint, numVarsAfterDecimal, sTc);
+  dtostrf(Tf, minStringWidthIncDecimalPoint, numVarsAfterDecimal, sTf);
+}
+  

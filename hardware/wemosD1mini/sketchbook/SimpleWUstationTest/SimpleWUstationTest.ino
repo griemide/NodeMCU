@@ -5,13 +5,14 @@
  *  (c) 2016, Michael Gries
  *  Creation: 2016-07-30 (copied from SimpleDeepSleepModule)
  *  Modified: 2016-07-31 (Personal Weather Station PWS for weatherstation.wunderground.com)
+ *  Modified: 2016-08-03 (outdoor temperature support added)
  *  
  * MODULES:
  *   DWIO.ino version 16.7.31 (DWeet.IO data monitoring)
  *   EDSM.ino version 16.6.25 (Esp8266 Deep Sleep Mode)
  *   INIT.ino version 16.7.3  (INITialze hardware)
  *   PING.ino version 16.6.23 (PING clients and hosts)
- *   PWSM.ino version 16.7.31 (Personal Weather Station Messaging)
+ *   PWSM.ino version 16.8.3  (Personal Weather Station Messaging)
  *   SNTP.ino version 16.6.27 (Simple Network Time Protocol)
  *   WLAN.ino version 16.6.27 (connect to local Wireless LAN) 
  * 
@@ -26,9 +27,10 @@
  *   
  */
 
-//// DECLARATIONS
-char FilenameWithPath[] = __FILE__;
+///// DECLARATIONS
+char  FilenameWithPath[] = __FILE__;
 char* CurrentTimestamp;
+float gfTempOutdoor = 15.5; // default (currently for test purposes only)
 
 void InitializeModule(char* sketchName); 
 void ConnectingToWLAN();
