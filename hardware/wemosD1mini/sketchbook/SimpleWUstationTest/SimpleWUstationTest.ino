@@ -30,7 +30,7 @@
 ///// DECLARATIONS
 char  FilenameWithPath[] = __FILE__;
 char* CurrentTimestamp;
-float gfTempOutdoor = 15.5; // default (currently for test purposes only)
+float gfTempOutdoor = 15.5; // °Celsius for Dweet IO reporting
 
 void InitializeModule(char* sketchName); 
 void ConnectingToWLAN();

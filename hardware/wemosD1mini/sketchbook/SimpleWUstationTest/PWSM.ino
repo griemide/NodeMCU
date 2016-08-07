@@ -6,6 +6,7 @@
  *  Creation: 2016-07-30 (Personal Weather Station PWS for weatherstation.wunderground.com)
  *  Modified: 2016-07-31 (feasability study - basis tests by using wiki.wundergrund.com example)
  *  Modified: 2016-08-03 (outdoor temperature added)
+ *  Modified: 2016-08-08 (outdoor temperature simulation added)
  * 
  * PREREQUISITES:
  *   uses predefined local WiFi network
@@ -24,15 +25,17 @@
  
 #include <ESP8266WiFi.h>
 #include <TimeLib.h>      // by Paul Stoffregen, not included in the Arduino IDE !!!
+
 #define  WU_SERVER   "weatherstation.wunderground.com"  // see example above
-#define  PWS_ID      "ID=IBADHERS8"                     // check your WU login profile
-#define  PWS_PWD     "PASSWORD=1tqx3ixw"                // check your WU login profile
-#define  PWS_VERSION "16.8.3"                           // udtae according modified date of this file
-#define  PWS_ACTION  "action=updateraw"                 // sending raw data (default)
+#define  PWS_ID      "IBADHERS8"                        // check your WU login profile
+#define  PWS_PWD     "1tqx3ixw"                         // check your WU login profile
+#define  PWS_VERSION "16.8.8"                           // udtae according modified date of this file
+#define  PWS_ACTION  "updateraw"                        // sending raw data (default)
 
 ////  DECLARATIONS
 const char* WUhost = WU_SERVER;
 const float pi = 3.14;
+const float TempOutdoorDefault = 15.0;
 const int SecondsPerDay = 24 * 3600;
 void  TempToString();
 float Tc;
@@ -59,13 +62,15 @@ void PWSMessageUpdate(){
   // Serial.print(__func__); Serial.print(": TimeStamp (debug info): "); Serial.println(TimeStamp); // for debug purpose only 
   // debug test result: 2016-07-31+19%3A17%3A27
 
-  //float HMS = hour()+minute()/60.0;             // https://de.wikipedia.org/wiki/Industrieminute
-  //float TcDelta = HMS * 15.0;                   // i.e. 24 hour == 360°  (for sine cycle below)
+  //float HMS = hour()+minute()/60.0;                 // https://de.wikipedia.org/wiki/Industrieminute
+  //float TcDelta = HMS * 15.0;                       // i.e. 24 hour == 360°  (for sine cycle below)
   int iSec = second()+minute()*60+hour()*3600;
-  Tc = gfTempOutdoor + sin(iSec*2*pi/SecondsPerDay);  // i.e. one periodic cycle per day (variies around giTempOutdoor for test purposes)
-  Tf = Tc * (9.0/5.0) + 32.0;             // https://de.wikipedia.org/wiki/Grad_Fahrenheit
+  Tc = TempOutdoorDefault + sin(2*pi*iSec/SecondsPerDay + 3*pi/2) * 3;  // i.e. one periodic cycle per day (variies around giTempOutdoor for test purposes)
+  Tf = Tc * (9.0/5.0) + 32.0;                         // https://de.wikipedia.org/wiki/Grad_Fahrenheit
 
   TempToString();  
+
+  gfTempOutdoor = Tc;
   
   String PWStemp(sTf);                // i.e. one periodic cycle per day (variies around giTempOutdoor for test purposes)
   
@@ -78,9 +83,9 @@ void PWSMessageUpdate(){
 
   String httpPayload;
   httpPayload = String("GET /weatherstation/updateweatherstation.php?") 
-                      + PWS_ID
+                      + "ID=" + PWS_ID
                       + "&" 
-                      + PWS_PWD 
+                      + "PASSWORD=" + PWS_PWD 
                       + "&" 
                       + "dateutc=" + TimeStamp
                       + "&" 
@@ -88,7 +93,7 @@ void PWSMessageUpdate(){
                       + "&" 
                       + "softwaretype=" + PWS_VERSION
                       + "&" 
-                      + PWS_ACTION
+                      + "action=" + PWS_ACTION
                       + " "
                       + "HTTP/1.1\r\n" 
                       + "Host: " + WUhost + "\r\n" 

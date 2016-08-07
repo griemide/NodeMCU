@@ -7,6 +7,7 @@
  *  Modified: 2016-06-28 (function DweetIOmessaging added)
  *  Modified: 2016-07-04 (ESP.getFreeHeap() added to Dweet)
  *  Modified: 2016-07-31 (debug info of http server response improved)
+ *  Modified: 2016-08-08 (DWEET_IO_THING_NAME changed to af104-pws)
  * 
  * PREREQUISITES:
  *   uses predefined local WiFi network
@@ -23,7 +24,8 @@
  
 #include <ESP8266WiFi.h>
 #include <TimeLib.h>      // by Paul Stoffregen, not included in the Arduino IDE !!!
-#define  DWEET_IO_THING_NAME  "af104-D1mini"  // IoT test device name
+
+#define  DWEET_IO_THING_NAME  "af104-pws"  // IoT test device name
 
 ////  DECLARATIONS
 const char* host = "dweet.io";
@@ -45,9 +47,11 @@ void DweetIOmessaging(){
   //
   // send the request to the server https://dweet.io/follow/af104-D1mini
   //
-  client.print(String("GET /dweet/for/af104-D1mini") 
+  client.print(String("GET /dweet/for/af104-pws") 
                       + "?" 
                       + "RSSI=" + WiFi.RSSI() 
+                      + "&" 
+                      + "TempOutdoor=" + gfTempOutdoor 
                       + "&" 
                       + "Millis=" + millis() 
                       + "&" 
