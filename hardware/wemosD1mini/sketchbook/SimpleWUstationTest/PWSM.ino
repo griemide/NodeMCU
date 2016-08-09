@@ -37,7 +37,6 @@ const char* WUhost = WU_SERVER;
 const float pi = 3.14;
 const float TempOutdoorDefault = 15.0;
 const int SecondsPerDay = 24 * 3600;
-void  TempToString();
 float Tc;
 float Tf;
 char  sTc[12];
@@ -68,7 +67,10 @@ void PWSMessageUpdate(){
   Tc = TempOutdoorDefault + sin(2*pi*iSec/SecondsPerDay + 3*pi/2) * 3;  // i.e. one periodic cycle per day (variies around giTempOutdoor for test purposes)
   Tf = Tc * (9.0/5.0) + 32.0;                         // https://de.wikipedia.org/wiki/Grad_Fahrenheit
 
-  TempToString();  
+  signed char minStringWidthIncDecimalPoint = 4;
+  unsigned char numVarsAfterDecimal = 1;
+  dtostrf(Tc, minStringWidthIncDecimalPoint, numVarsAfterDecimal, sTc);
+  dtostrf(Tf, minStringWidthIncDecimalPoint, numVarsAfterDecimal, sTf);
 
   gfTempOutdoor = Tc;
   
@@ -116,13 +118,5 @@ void PWSMessageUpdate(){
     // Serial.print(__func__); Serial.print(": HTTP (debug info): ");Serial.println(line); // only for debug purposes
   }
   Serial.print(__func__); Serial.print(": HTTP (server response): "); Serial.println(httpStatusLine);
-}
-
-
-void TempToString() {
-  signed char minStringWidthIncDecimalPoint = 4;
-  unsigned char numVarsAfterDecimal = 1;
-  dtostrf(Tc, minStringWidthIncDecimalPoint, numVarsAfterDecimal, sTc);
-  dtostrf(Tf, minStringWidthIncDecimalPoint, numVarsAfterDecimal, sTf);
 }
   

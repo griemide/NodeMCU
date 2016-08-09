@@ -1,6 +1,6 @@
 /*
  * SKETCH:
- *  SimpleWUstationTest.ino (main module)
+ *  SimpleWUstationTest.ino (main module) - version see DEFINE below
  * 
  *  (c) 2016, Michael Gries
  *  Creation: 2016-07-30 (copied from SimpleDeepSleepModule)
@@ -27,10 +27,11 @@
  *   
  */
 
-///// DECLARATIONS
-char  FilenameWithPath[] = __FILE__;
-char* CurrentTimestamp;
-float gfTempOutdoor = 15.5; // °Celsius for Dweet IO reporting
+////// DECLARATIONS
+char   FilenameWithPath[] = __FILE__;
+String FileCompiled;
+char*  CurrentTimestamp;
+float  gfTempOutdoor = 15.5; // °Celsius for Dweet IO reporting
 
 void InitializeModule(char* sketchName); 
 void ConnectingToWLAN();
@@ -60,10 +61,10 @@ void setup()
 
   PingRemoteServer(); // monitor reachability of remote ftp server
 
-  DweetIOmessaging(); // sharing Internet of Things data to server
-
   PWSMessageUpdate(); // sent Personal Weather Station PWS) Message to WU Server
   
+  DweetIOmessaging(); // sharing Internet of Things data to server
+
   EspDeepSleepMode(); // activate ESP-12E Deep-Sleep Wake mode
 }
 

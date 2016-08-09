@@ -41,5 +41,6 @@ void InitializeModule(char* sketchName)
   Serial.print(__func__); Serial.print(": Compiled on "); 
   Serial.print(__DATE__); Serial.print(" "); Serial.println(__TIME__);
   Serial.print(__func__); Serial.print(": esptool v"); Serial.println(__VERSION__);
+  FileCompiled = __DATE__; FileCompiled.replace(" ","-");
 }
 

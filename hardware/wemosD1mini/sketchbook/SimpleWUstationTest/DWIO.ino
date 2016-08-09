@@ -47,25 +47,30 @@ void DweetIOmessaging(){
   //
   // send the request to the server https://dweet.io/follow/af104-D1mini
   //
-  client.print(String("GET /dweet/for/af104-pws") 
+  String httpPayload;
+  httpPayload = String("GET /dweet/for/af104-pws") 
                       + "?" 
-                      + "RSSI=" + WiFi.RSSI() 
+                      + "TempOutdoor=" + gfTempOutdoor  // PWSM.ino
                       + "&" 
-                      + "TempOutdoor=" + gfTempOutdoor 
+                      + "TimeStamp=" + TimeStamp        // SNTP.ino
                       + "&" 
                       + "Millis=" + millis() 
                       + "&" 
-                      + "TimeStamp=" + TimeStamp 
+                      + "RSSI=" + WiFi.RSSI() 
                       + "&" 
                       + "FreeHeap=" + ESP.getFreeHeap() 
+                      + "&" 
+                      + "Built=" + FileCompiled          // INIT.ino 
                       + "&" 
                       + "ToolVersion=" + __VERSION__ 
                       + " "
                       + "HTTP/1.1\r\n" 
                       + "Host: " + host + "\r\n" 
                       + "Connection: close\r\n\r\n"
-                      );
-  delay(10);
+                      ;
+  //Serial.println(httpPayload); // for debug purposes only 
+  client.print(httpPayload);
+  delay(20);
   // Read all the lines of the reply from server and print them to Serial
   String httpStatusLine;
   bool   onlyfirstLine = true;
