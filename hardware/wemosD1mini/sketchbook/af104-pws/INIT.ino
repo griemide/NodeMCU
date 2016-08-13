@@ -23,16 +23,15 @@
 
 // DECLARATIONS
 const int   SERIAL_BAUDRATE     = 74880; // Wemos D1 mini default
-const int   LED_BRIGHTNESS      = 512;   // 0..1023 (0=full)
 
 void InitializeModule(char* sketchName) 
 {
+  pinMode(BUILTIN_LED, OUTPUT);  // initialize onboard LED 
+  analogWrite(BUILTIN_LED, LED_BRIGHTNESS_FULL);
   Serial.begin(SERIAL_BAUDRATE);  delay(10);
   if(WIFI_DEBUG) {
     Serial.setDebugOutput(true); // prints additional information of WiFi connection
   }
-  pinMode(BUILTIN_LED, OUTPUT);  // initialize onboard LED 
-  analogWrite(BUILTIN_LED, LED_BRIGHTNESS);
   Serial.println();
   Serial.print(__func__); Serial.print(": reset by ");
   Serial.println(ESP.getResetReason()); //Deep-Sleep Wake OR  External System
@@ -42,5 +41,6 @@ void InitializeModule(char* sketchName)
   Serial.print(__DATE__); Serial.print(" "); Serial.println(__TIME__);
   Serial.print(__func__); Serial.print(": esptool v"); Serial.println(__VERSION__);
   FileCompiled = __DATE__; FileCompiled.replace(" ","-");
+  analogWrite(BUILTIN_LED, LED_BRIGHTNESS_LOW);
 }
 

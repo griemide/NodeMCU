@@ -35,6 +35,10 @@ Timer timer;
 
 ////// DECLARATIONS
 char   FilenameWithPath[] = __FILE__;
+const int   LED_BRIGHTNESS_LOW      = 1023 - 23 ;   // 0..1023 (0=full)
+const int   LED_BRIGHTNESS_HIGH     = 512 + 256 ;   // 0..1023 (0=full)
+const int   LED_BRIGHTNESS_FULL     = 0;            // 0..1023 (0=full)
+
 String FileCompiled;
 float  gfTempOutdoor = 15.5; // °Celsius for Dweet IO reporting
 int    periodRunNetworkChecks = 1000 * 15;  // every 15 seconds
@@ -88,15 +92,19 @@ void loop()
 
 void runNetworkChecks()
 {
+  analogWrite(BUILTIN_LED, LED_BRIGHTNESS_HIGH);
   PingLocalClients(); // monitor reachability of local network clients 
 
   PingRemoteServer(); // monitor reachability of remote ftp server
 
   DweetIOmessaging(); // sharing Internet of Things data to server
+  analogWrite(BUILTIN_LED, LED_BRIGHTNESS_LOW);
 }
 
 void runUpdatePWSdata()
 {
+  analogWrite(BUILTIN_LED, LED_BRIGHTNESS_FULL);
   PWSMessageUpdate(); // sent Personal Weather Station PWS) Message to WU Server 
+  analogWrite(BUILTIN_LED, LED_BRIGHTNESS_LOW);
 }
 
