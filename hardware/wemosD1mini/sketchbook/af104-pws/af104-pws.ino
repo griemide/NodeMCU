@@ -21,7 +21,7 @@
  *   ESP8266 based hardware (NodeMCU or Wemos D1 mini)
  *  
  * LINKS:
- *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/SimpleDeepSleep
+ *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/af104-pws
  * 
  * ISSUES:
  *   none

@@ -44,6 +44,10 @@ void DweetIOmessaging(){
   char TimeStamp[20]; 
   sprintf(TimeStamp, "%04d-%02d-%02d_%02d:%02d:%02d", year(), month(), day(), hour(), minute(), second() );
   //Serial.println(TimeStamp);
+  char DATE_YMD[10]; 
+  sprintf(DATE_YMD, "%02d-%02d-%02d", year()-2000, month(), day() );
+  char TIME_HMS[10]; 
+  sprintf(TIME_HMS, "%02d:%02d:%02d", hour(), minute(), second() );
   
   //
   // send the request to the server https://dweet.io/follow/af104-D1mini
@@ -53,19 +57,19 @@ void DweetIOmessaging(){
                       + "?" 
                       + "TempOutdoor=" + gfTempOutdoor  // PWSM.ino
                       + "&" 
-                      + "Date=16-08-13"         // for test purposes only
+                      + "Date="  + DATE_YMD        // DWIO.ino
                       + "&" 
-                      + "Time=23:48:59"         // for test purposes only
-                      + "&" 
-                      + "TimeStamp=" + TimeStamp        // SNTP.ino
-                      + "&" 
-                      + "Millis=" + millis() 
+                      + "Time=" + TIME_HMS        // DWIO.ino
+                   // + "&" 
+                   // + "TimeStamp=" + TimeStamp        // DWIO.ino
                       + "&" 
                       + "RSSI=" + WiFi.RSSI() 
                       + "&" 
                       + "PingLocal=" + pingAverageLocal  //PING.ino 
                       + "&" 
                       + "PingRemote=" + pingAverageRemote //PING.ino 
+                      + "&" 
+                      + "Millis=" + millis() 
                       + "&" 
                       + "FreeHeap=" + ESP.getFreeHeap() 
                       + "&" 
