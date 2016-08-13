@@ -55,27 +55,27 @@ void DweetIOmessaging(){
   String httpPayload;
   httpPayload = String("GET /dweet/for/af104-pws") 
                       + "?" 
-                      + "TempOutdoor=" + gfTempOutdoor  // PWSM.ino
+                      + "Temp_Outdoor=" + gfTempOutdoor  // PWSM.ino
                       + "&" 
-                      + "Date="  + DATE_YMD        // DWIO.ino
+                      + "Date_Station="  + DATE_YMD        // DWIO.ino
                       + "&" 
-                      + "Time=" + TIME_HMS        // DWIO.ino
+                      + "Time_Local=" + TIME_HMS        // DWIO.ino
                    // + "&" 
                    // + "TimeStamp=" + TimeStamp        // DWIO.ino
                       + "&" 
-                      + "RSSI=" + WiFi.RSSI() 
+                      + "RSSI_Station=" + WiFi.RSSI() 
                       + "&" 
-                      + "PingLocal=" + pingAverageLocal  //PING.ino 
+                      + "Ping_Local=" + pingAverageLocal  //PING.ino 
                       + "&" 
-                      + "PingRemote=" + pingAverageRemote //PING.ino 
+                      + "Ping_Remote=" + pingAverageRemote //PING.ino 
                       + "&" 
-                      + "Millis=" + millis() 
+                      + "Millis_After_Reset=" + millis() 
                       + "&" 
-                      + "FreeHeap=" + ESP.getFreeHeap() 
+                      + "Free_Heap=" + ESP.getFreeHeap() 
                       + "&" 
-                      + "Built=" + FileCompiled          // INIT.ino 
+                      + "Built_Date=" + FileCompiled          // INIT.ino 
                       + "&" 
-                      + "ToolVersion=" + __VERSION__ 
+                      + "Tool_Version=" + __VERSION__ 
                       + " "
                       + "HTTP/1.1\r\n" 
                       + "Host: " + host + "\r\n" 

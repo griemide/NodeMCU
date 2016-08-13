@@ -1,6 +1,6 @@
 /*
  * SKETCH:
- *  af104-pws.ino (main module) - version see DEFINE below
+ *  af104-pws.ino (main module) 
  * 
  *  (c) 2016, Michael Gries
  *  Creation: 2016-07-30 (copied from SimpleDeepSleepModule)
@@ -18,10 +18,15 @@
  *   WLAN.ino version 16.6.27 (connect to local Wireless LAN) 
  * 
  * PREREQUISITES:
- *   ESP8266 based hardware (NodeMCU or Wemos D1 mini)
+ *   ESP8266 based hardware (NodeMCU or Wemos D1 or Wemos D1 mini)
  *  
  * LINKS:
  *   see https://github.com/griemide/NodeMCU/tree/master/hardware/wemosD1mini/sketchbook/af104-pws
+ *   see http://playground.arduino.cc/Code/Timer
+ *   
+ * 
+ * LIBRARYS:
+ *   see https://github.com/JChristensen/Timer (Timer-Master.zip)
  * 
  * ISSUES:
  *   none
@@ -94,9 +99,7 @@ void runNetworkChecks()
 {
   analogWrite(BUILTIN_LED, LED_BRIGHTNESS_HIGH);
   PingLocalClients(); // monitor reachability of local network clients 
-
   PingRemoteServer(); // monitor reachability of remote ftp server
-
   DweetIOmessaging(); // sharing Internet of Things data to server
   analogWrite(BUILTIN_LED, LED_BRIGHTNESS_LOW);
 }
