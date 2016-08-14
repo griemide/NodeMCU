@@ -6,7 +6,7 @@
  *  Creation: 2016-07-30 (copied from SimpleDeepSleepModule)
  *  Modified: 2016-07-31 (Personal Weather Station PWS for weatherstation.wunderground.com)
  *  Modified: 2016-08-03 (outdoor temperature support added)
- *  Modified: 2016-08-13 (Timer-master Library added)
+ *  Modified: 2016-08-14 (Timer-master Library added)
  *  
  * MODULES:
  *   DWIO.ino version 16.7.31 (DWeet.IO data monitoring)
@@ -45,11 +45,13 @@ const int   LED_BRIGHTNESS_HIGH     = 512 + 256 ;   // 0..1023 (0=full)
 const int   LED_BRIGHTNESS_FULL     = 0;            // 0..1023 (0=full)
 
 String FileCompiled;
+int    FileCompiledUnix;
 float  gfTempOutdoor = 15.5; // °Celsius for Dweet IO reporting
 int    periodRunNetworkChecks = 1000 * 15;  // every 15 seconds
 int    periodRunUpdatePWSdata = 1000 * 60;  // every minute
 int    pingAverageLocal;
 int    pingAverageRemote;
+int    SecondsElapsed;
 
 
 void InitializeModule(char* sketchName); 

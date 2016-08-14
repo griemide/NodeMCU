@@ -48,6 +48,9 @@ void DweetIOmessaging(){
   sprintf(DATE_YMD, "%02d-%02d-%02d", year()-2000, month(), day() );
   char TIME_HMS[10]; 
   sprintf(TIME_HMS, "%02d:%02d:%02d", hour(), minute(), second() );
+
+  // Update Seconds elapsed since device reset
+  SecondsElapsed = millis() / 1000;
   
   //
   // send the request to the server https://dweet.io/follow/af104-D1mini
@@ -69,9 +72,11 @@ void DweetIOmessaging(){
                       + "&" 
                       + "Ping_Remote=" + pingAverageRemote //PING.ino 
                       + "&" 
-                      + "Millis_After_Reset=" + millis() 
+                      + "Seconds_Elapsed=" + SecondsElapsed  //DWIO.ino
                       + "&" 
                       + "Free_Heap=" + ESP.getFreeHeap() 
+                      + "&" 
+                      + "Built_Date_Unix=" + FileCompiledUnix   // INIT.ino 
                       + "&" 
                       + "Built_Date=" + FileCompiled          // INIT.ino 
                       + "&" 
