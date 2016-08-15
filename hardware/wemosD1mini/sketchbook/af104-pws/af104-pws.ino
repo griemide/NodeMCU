@@ -7,11 +7,13 @@
  *  Modified: 2016-07-31 (Personal Weather Station PWS for weatherstation.wunderground.com)
  *  Modified: 2016-08-03 (outdoor temperature support added)
  *  Modified: 2016-08-14 (Timer-master Library added)
+ *  Modified: 2016-08-15 (OTA functionality added)
  *  
  * MODULES:
  *   DWIO.ino version 16.7.31 (DWeet.IO data monitoring)
  *   EDSM.ino version 16.6.25 (Esp8266 Deep Sleep Mode)
  *   INIT.ino version 16.7.3  (INITialze hardware)
+ *   OTAU.ino version 16.8.15 (Over The Air Update)
  *   PING.ino version 16.6.23 (PING clients and hosts)
  *   PWSM.ino version 16.8.3  (Personal Weather Station Messaging)
  *   SNTP.ino version 16.6.27 (Simple Network Time Protocol)
@@ -33,9 +35,16 @@
  *   
  */
 
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
+#include <ESP8266HTTPUpdateServer.h>
 #include <Event.h>
 #include <Timer.h>
 
+ESP8266WebServer httpServer(80);
+ESP8266HTTPUpdateServer httpUpdater;
 Timer timer;   
 
 ////// DECLARATIONS
@@ -53,10 +62,10 @@ int    pingAverageLocal;
 int    pingAverageRemote;
 int    SecondsElapsed;
 
-
 void InitializeModule(char* sketchName); 
 void ConnectingToWLAN();
 void GetTimeNTPServer();
+void HandleOTAUpdater();
 void PingLocalClients();
 void PingRemoteServer();
 void DweetIOmessaging();
@@ -79,6 +88,8 @@ void setup()
   
   ConnectingToWLAN(); // Connect to local WiFi network
 
+  HandleOTAUpdater(); // Aktivate OTA Update functionality 
+
   GetTimeNTPServer(); // use NTP server time for timestamp logging
   
   // EspDeepSleepMode(); // activate ESP-12E Deep-Sleep Wake mode
@@ -92,6 +103,7 @@ void setup()
 
 void loop() 
 {
+  httpServer.handleClient();
   timer.update();
 }
 
