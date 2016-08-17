@@ -8,6 +8,7 @@
  *  Modified: 2016-07-04 (ESP.getFreeHeap() added to Dweet)
  *  Modified: 2016-07-31 (debug info of http server response improved)
  *  Modified: 2016-08-08 (DWEET_IO_THING_NAME changed to af104-pws)
+ *  Modified: 2016-08-17 (reporting modified - Build_Date_Unix removed)
  * 
  * PREREQUISITES:
  *   uses predefined local WiFi network
@@ -52,6 +53,22 @@ void DweetIOmessaging(){
   // Update Seconds elapsed since device reset
   SecondsElapsed = millis() / 1000;
   
+  int sek = SecondsElapsed;
+  int min;
+  int std;
+  int tag;
+  
+  min = sek/60; sek%=60;
+  std = min/60; min%=60;
+  tag = std/24; std%=24;
+
+
+  char ELAPSED_MS[20]; 
+  sprintf(ELAPSED_MS, "%02dm%02ds", min, sek);
+  char ELAPSED_DH[20]; 
+  sprintf(ELAPSED_DH, "%dd%02dh", tag, std);
+ 
+  
   //
   // send the request to the server https://dweet.io/follow/af104-D1mini
   //
@@ -74,9 +91,13 @@ void DweetIOmessaging(){
                       + "&" 
                       + "Seconds_Elapsed=" + SecondsElapsed  //DWIO.ino
                       + "&" 
+                      + "Time_Elapsed=" + ELAPSED_MS  //DWIO.ino
+                      + "&" 
                       + "Free_Heap=" + ESP.getFreeHeap() 
                       + "&" 
-                      + "Built_Date_Unix=" + FileCompiledUnix   // INIT.ino 
+                      + "OTA_IP=" + ipAddressSubnet  // WLAN.ino 
+                   // + "&" 
+                   // + "Built_Date_Unix=" + FileCompiledUnix   // INIT.ino 
                       + "&" 
                       + "Built_Date=" + FileCompiled          // INIT.ino 
                       + "&" 
