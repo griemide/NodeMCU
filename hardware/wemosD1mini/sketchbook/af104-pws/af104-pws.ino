@@ -8,16 +8,17 @@
  *  Modified: 2016-08-03 (outdoor temperature support added)
  *  Modified: 2016-08-14 (Timer-master Library added)
  *  Modified: 2016-08-15 (OTA functionality added)
+ *  Modified: 2016-08-17 (Dweet IO Reporting modified)
  *  
  * MODULES:
- *   DWIO.ino version 16.7.31 (DWeet.IO data monitoring)
+ *   DWIO.ino version 16.8.17 (DWeet.IO data monitoring)
  *   EDSM.ino version 16.6.25 (Esp8266 Deep Sleep Mode)
  *   INIT.ino version 16.7.3  (INITialze hardware)
  *   OTAU.ino version 16.8.15 (Over The Air Update)
  *   PING.ino version 16.6.23 (PING clients and hosts)
  *   PWSM.ino version 16.8.3  (Personal Weather Station Messaging)
  *   SNTP.ino version 16.6.27 (Simple Network Time Protocol)
- *   WLAN.ino version 16.6.27 (connect to local Wireless LAN) 
+ *   WLAN.ino version 16.8.17 (connect to local Wireless LAN) 
  * 
  * PREREQUISITES:
  *   ESP8266 based hardware (NodeMCU or Wemos D1 or Wemos D1 mini)
@@ -61,6 +62,8 @@ int    periodRunUpdatePWSdata = 1000 * 60;  // every minute
 int    pingAverageLocal;
 int    pingAverageRemote;
 int    SecondsElapsed;
+int    ipAddressDevice = 234;
+char   deviceIPstring[24];
 
 void InitializeModule(char* sketchName); 
 void ConnectingToWLAN();

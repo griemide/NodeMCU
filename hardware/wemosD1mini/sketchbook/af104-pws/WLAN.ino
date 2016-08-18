@@ -5,6 +5,7 @@
  *  (c) 2016, Michael Gries
  *  Creation: 2016-06-22 (based on SimpleDeepSleepTest.ino)
  *  Modified: 2016-06-27 (RSSI monitoring added)
+ *  Modified: 2016-08-17 (received LocalIP prepared to be used by DWIO.ino)
  * 
  * PREREQUISITES:
  *   uses predefined WiFi networks
@@ -31,8 +32,11 @@ void ConnectingToWLAN()
   while (WiFi.status() != WL_CONNECTED) {
     delay(100);  Serial.print(".");
   }
+  IPAddress deviceIP = WiFi.localIP();
+  sprintf(deviceIPstring, "%d.%d.%d.%d", deviceIP[0], deviceIP[1], deviceIP[2], deviceIP[3]);
+  ipAddressDevice = (int)deviceIP[3];
   Serial.println();
-  Serial.print(__func__); Serial.print(": IP: "); Serial.print(WiFi.localIP());
+  Serial.print(__func__); Serial.print(": IP: "); Serial.print(deviceIP);
   Serial.print(" RSSI: "); Serial.print(WiFi.RSSI()); Serial.print(" dBm (");
   Serial.print(millis()); Serial.println(" ms after reset)"); 
 }

@@ -51,7 +51,12 @@ void DweetIOmessaging(){
   sprintf(TIME_HMS, "%02d:%02d:%02d", hour(), minute(), second() );
 
   // Update Seconds elapsed since device reset
-  SecondsElapsed = millis() / 1000;
+  #define SimulateTimeElapsed false    // true or false
+  if (SimulateTimeElapsed) {
+    SecondsElapsed = millis(); // speed up time for fast simulation
+  } else {
+    SecondsElapsed = millis() / 1000; // seconds
+  }
   
   int sek = SecondsElapsed;
   int min;
@@ -64,13 +69,26 @@ void DweetIOmessaging(){
 
 
   char ELAPSED_MS[20]; 
-  sprintf(ELAPSED_MS, "%02dm%02ds", min, sek);
+  sprintf(ELAPSED_MS, "%dm%02ds", min, sek);
+  char ELAPSED_HM[20]; 
+  sprintf(ELAPSED_HM, "%dh%02dm", std, min);
   char ELAPSED_DH[20]; 
   sprintf(ELAPSED_DH, "%dd%02dh", tag, std);
+  
+  String TimeElapsed;
+  TimeElapsed = (String)ELAPSED_MS;
+  if (SecondsElapsed > 3600) { // > 1 hour
+    TimeElapsed = (String)ELAPSED_HM;
+  }
+  if (SecondsElapsed > 86400) { // > 1 day
+    TimeElapsed = (String)ELAPSED_DH;
+  }
+  // Serial.print(__func__); Serial.print(": SecondsElapsed: "); Serial.println(SecondsElapsed);
+  // Serial.print(__func__); Serial.print(": TimeElapsed: "); Serial.println(TimeElapsed);
  
   
   //
-  // send the request to the server https://dweet.io/follow/af104-D1mini
+  // send the request to the server https://dweet.io/follow/af104-pws
   //
   String httpPayload;
   httpPayload = String("GET /dweet/for/af104-pws") 
@@ -91,17 +109,17 @@ void DweetIOmessaging(){
                       + "&" 
                       + "Seconds_Elapsed=" + SecondsElapsed  //DWIO.ino
                       + "&" 
-                      + "Time_Elapsed=" + ELAPSED_MS  //DWIO.ino
+                      + "Time_Elapsed=" + TimeElapsed  //DWIO.ino
                       + "&" 
                       + "Free_Heap=" + ESP.getFreeHeap() 
                       + "&" 
-                      + "OTA_IP=" + ipAddressSubnet  // WLAN.ino 
+                      + "OTA_HOST_IP=" + ipAddressDevice  // WLAN.ino 
                    // + "&" 
                    // + "Built_Date_Unix=" + FileCompiledUnix   // INIT.ino 
                       + "&" 
                       + "Built_Date=" + FileCompiled          // INIT.ino 
-                      + "&" 
-                      + "Tool_Version=" + __VERSION__ 
+                   // + "&" 
+                   // + "Tool_Version=" + __VERSION__ 
                       + " "
                       + "HTTP/1.1\r\n" 
                       + "Host: " + host + "\r\n" 
