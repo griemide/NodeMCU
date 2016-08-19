@@ -36,6 +36,9 @@
  * ISSUES:
  *   none
  *   
+ * WISHLIST:
+ *   see https://github.com/tzapu/WiFiManager
+ *   
  */
 
 #include <ESP8266WiFi.h>
