@@ -29,6 +29,8 @@
  *   
  * 
  * LIBRARYS:
+ *   see https://www.arduino.cc/en/Guide/Libraries
+ *   see Contributed libraries: C:\...\Arduino\Sketchbook\libraries
  *   see https://github.com/JChristensen/Timer (Timer-Master.zip)
  * 
  * ISSUES:

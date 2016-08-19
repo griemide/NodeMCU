@@ -14,6 +14,7 @@
  *   see http://192.168.0.43/update (ESP_E1B43E testing system / Q-system)
  *   see file://C:/Users/griemide/AppData/Local/Temp
  *   see file://C:/Users/griemide/AppData/Local/Temp/build8cd6792565aebefbc5f65d65d5e446e2.tmp
+ *   see http://esp8266.github.io/Arduino/versions/2.1.0-rc2/doc/ota_updates/ota_updates.html
  * 
  * ISSUES:
  *   none
