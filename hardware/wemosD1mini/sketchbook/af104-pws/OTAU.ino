@@ -4,13 +4,14 @@
  * 
  *  (c) 2016, Michael Gries
  *  Creation: 2016-08-15 (based on BasicOTA.ino)
- *  Modified: 2016-08-16 (editorial changes)
+ *  Modified: 2016-08-19 (editorial changes)
  * 
  * PREREQUISITES:
  *   deviceIPstring defined in main sketch
  *  
  * LINKS:
- *   see http://192.168.0.171/update
+ *   see http://192.168.0.41/update (ESP_0f791F productive system )
+ *   see http://192.168.0.43/update (ESP_E1B43E testing system / Q-system)
  *   see file://C:/Users/griemide/AppData/Local/Temp
  *   see file://C:/Users/griemide/AppData/Local/Temp/build8cd6792565aebefbc5f65d65d5e446e2.tmp
  * 

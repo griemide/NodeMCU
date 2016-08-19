@@ -5,7 +5,7 @@
  *  (c) 2016, Michael Gries
  *  Creation: 2016-06-22 (based on SimpleDeepSleepTest.ino)
  *  Modified: 2016-06-27 (RSSI monitoring added)
- *  Modified: 2016-08-17 (received LocalIP prepared to be used by DWIO.ino)
+ *  Modified: 2016-08-18 (received LocalIP prepared to be used by DWIO.ino)
  * 
  * PREREQUISITES:
  *   uses predefined WiFi networks
