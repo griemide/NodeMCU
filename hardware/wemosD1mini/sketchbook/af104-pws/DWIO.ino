@@ -113,11 +113,11 @@ void DweetIOmessaging(){
                       + "&" 
                       + "Free_Heap=" + ESP.getFreeHeap() 
                       + "&" 
-                      + "OTA_HOST_IP=" + ipAddressDevice  // WLAN.ino 
+                      + "OTA_Host_IP=" + ipAddressDevice  // WLAN.ino 
                    // + "&" 
                    // + "Built_Date_Unix=" + FileCompiledUnix   // INIT.ino 
                       + "&" 
-                      + "Built_Date=" + FileCompiled          // INIT.ino 
+                      + "SW_Built=" + FileCompiled          // INIT.ino 
                    // + "&" 
                    // + "Tool_Version=" + __VERSION__ 
                       + " "
