@@ -41,7 +41,9 @@ void DweetIOmessaging(){
     Serial.print(__func__); Serial.println(": TCP connection failed (port 80)");
     return;
   }
-  Serial.print(__func__); Serial.print(": TCP: port 80 connected, HTTP (sent data to): "); Serial.println(host);
+  sprintf(logMessageBuffer, "TCP: port 80 connected, HTTP (sent data to): %s", host);
+  // Serial.print(__func__); Serial.print(": TCP: port 80 connected, HTTP (sent data to): "); Serial.println(host);
+  SerialLog(__func__, logMessageBuffer);
   char TimeStamp[20]; 
   sprintf(TimeStamp, "%04d-%02d-%02d_%02d:%02d:%02d", year(), month(), day(), hour(), minute(), second() );
   //Serial.println(TimeStamp);
@@ -140,5 +142,6 @@ void DweetIOmessaging(){
     // line.trim(); // get rid of whitespaces (CR, lF, etc.)
     // Serial.print(__func__); Serial.print(": HTTP (debug info): ");Serial.println(line); // only for debug purposes
   }
-  Serial.print(__func__); Serial.print(": HTTP (server response): "); Serial.println(httpStatusLine);
+  sprintf(logMessageBuffer, "HTTP (server response): %s", &httpStatusLine[0]);
+  SerialLog(__func__, logMessageBuffer);
 }

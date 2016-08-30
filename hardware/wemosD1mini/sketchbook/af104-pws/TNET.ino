@@ -22,18 +22,23 @@
 #include <ESP8266WiFi.h>
 #include <Arduino.h>
 
+int portTelnet = 23;
+
  // declare telnet server (do NOT put in setup())
-WiFiServer telnetServer(23);
+WiFiServer telnetServer(portTelnet);
 WiFiClient serverClient;
 
+void printSerToTelnet(char *LogMessage) {
+  if (serverClient && serverClient.connected()) {  // send data to Client
+      serverClient.println(LogMessage);
+  }
+}
 
 void RunTelnetSession() {
   telnetServer.begin();
   telnetServer.setNoDelay(true);
-  Serial.println("Please connect Telnet Client, exit with ^] and 'quit'");
-  if (serverClient && serverClient.connected()) {  // send data to Client
-      serverClient.print("Telnet server on port 23 started");
-  }
+  sprintf(logMessageBuffer, "Telnet server startet on port: %d", portTelnet);
+  SerialLog(__func__, logMessageBuffer);
 }
 
 
@@ -44,10 +49,12 @@ void runTelnetAliveHB()
     if (!serverClient || !serverClient.connected()) {
       if (serverClient) {
         serverClient.stop();
-        Serial.println("Telnet Client Stop");
+        sprintf(logMessageBuffer, "Telnet Client Stop: %d ms", millis() );
+        SerialLog(__func__, logMessageBuffer);
       }
       serverClient = telnetServer.available();
-      Serial.println("New Telnet client");
+      sprintf(logMessageBuffer, "New Telnet client: %d ms", millis() );
+      SerialLog(__func__, logMessageBuffer);
       serverClient.flush();  // clear input buffer, else you get strange characters 
     }
   }
@@ -57,14 +64,8 @@ void runTelnetAliveHB()
     Serial.write(serverClient.read());
   }
  
-  // print keep alive messahe periodically
-  if (serverClient && serverClient.connected()) {  // send data to Client
-      serverClient.print(millis());
-
-      serverClient.println(": Telnet feasability study");
-  }
+  // print keep alive message periodically
+  sprintf(logMessageBuffer, "Telnet keep alive message: %d ms", millis() );
+  SerialLog(__func__, logMessageBuffer);
 }
-
-
-
 

@@ -10,6 +10,7 @@
  *  Modified: 2016-08-15 (OTA functionality added)
  *  Modified: 2016-08-19 (Dweet IO Reporting modified)
  *  Modified: 2016-08-29 (Telnet support added)
+ *  Modified: 2016-08-30 (Serial logging support added)
  *  
  * MODULES:
  *   DWIO.ino version 16.8.19 (DWeet.IO data monitoring)
@@ -18,6 +19,7 @@
  *   OTAU.ino version 16.8.19 (Over The Air Update)
  *   PING.ino version 16.6.23 (PING clients and hosts)
  *   PWSM.ino version 16.8.8  (Personal Weather Station Messaging)
+ *   SLOG.ino version 16.8.20 (Serial Log support)
  *   SNTP.ino version 16.6.27 (Simple Network Time Protocol)
  *   TNET.ino version 16.8.29 (Telnet support module)
  *   WLAN.ino version 16.8.18 (connect to local Wireless LAN) 
@@ -66,12 +68,13 @@ int    FileCompiledUnix;
 float  gfTempOutdoor = 15.5; // °Celsius for Dweet IO reporting
 int    periodRunNetworkChecks = 1000 * 15;  // every 15 seconds
 int    periodRunUpdatePWSdata = 1000 * 60;  // every minute
-int    periodRunTelnetAliveHB = 1000 * 5;   // every five seconds
+int    periodRunTelnetAliveHB = 1000 * 30;  // every five seconds
 int    pingAverageLocal;
 int    pingAverageRemote;
 int    SecondsElapsed;
 int    ipAddressDevice = 234;
 char   deviceIPstring[24];
+char   logMessageBuffer[61];
 
 void InitializeModule(char* sketchName); 
 void ConnectingToWLAN();
@@ -88,6 +91,8 @@ void runNetworkChecks();
 void runUpdatePWSdata();
 void runTelnetAliveHB();
 
+void SerialLog(String, String );
+
 
 //// APPLICATION SETUP
 
@@ -103,10 +108,10 @@ void setup()
 
   HandleOTAUpdater(); // Aktivate OTA Update functionality 
 
-  GetTimeNTPServer(); // use NTP server time for timestamp logging
-
   RunTelnetSession(); // activate Telnet session for serial monitoring
   
+  GetTimeNTPServer(); // use NTP server time for timestamp logging
+
   // EspDeepSleepMode(); // activate ESP-12E Deep-Sleep Wake mode
 
   timer.every(periodRunNetworkChecks, runNetworkChecks);
