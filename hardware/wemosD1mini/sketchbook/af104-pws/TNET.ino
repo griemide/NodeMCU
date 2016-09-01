@@ -42,16 +42,16 @@ void RunTelnetSession() {
 }
 
 
-void runTelnetAliveHB()
-{
+void handleTelnetServ() {
   // look for Client connect trial
   if (telnetServer.hasClient()) {
     if (!serverClient || !serverClient.connected()) {
       if (serverClient) {
-        serverClient.stop();
+        serverClient.stop();  telnetActive = false;  
         sprintf(logMessageBuffer, "Telnet Client Stop: %d ms", millis() );
         SerialLog(__func__, logMessageBuffer);
       }
+      telnetActive = true;  
       serverClient = telnetServer.available();
       sprintf(logMessageBuffer, "New Telnet client: %d ms", millis() );
       SerialLog(__func__, logMessageBuffer);
@@ -60,12 +60,15 @@ void runTelnetAliveHB()
   }
 
   // read from telnet client and copy to Serial
-  while(serverClient.available()) {  // get data from Client
-    Serial.write(serverClient.read());
+  while(serverClient.available() ) {  // get data from Client
+    Serial.write(serverClient.read() );
   }
- 
-  // print keep alive message periodically
-  sprintf(logMessageBuffer, "Telnet keep alive message: %d ms", millis() );
-  SerialLog(__func__, logMessageBuffer);
+}
+
+void runTelnetAliveHB() {
+  if (telnetActive) {
+    // print keep alive message periodically
+    sprintf(logMessageBuffer, "Telnet keep alive message: %d ms", millis() );  SerialLog(__func__, logMessageBuffer);
+  }
 }
 

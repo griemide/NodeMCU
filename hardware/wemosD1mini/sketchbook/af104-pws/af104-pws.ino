@@ -75,6 +75,7 @@ int    SecondsElapsed;
 int    ipAddressDevice = 234;
 char   deviceIPstring[24];
 char   logMessageBuffer[61];
+bool   telnetActive = false;  
 
 void InitializeModule(char* sketchName); 
 void ConnectingToWLAN();
@@ -92,6 +93,7 @@ void runUpdatePWSdata();
 void runTelnetAliveHB();
 
 void SerialLog(String, String );
+void handleTelnetServ();
 
 
 //// APPLICATION SETUP
@@ -126,6 +128,7 @@ void loop()
 {
   httpServer.handleClient();
   timer.update();
+  handleTelnetServ();
 }
 
 //// APPLICATION TASKS

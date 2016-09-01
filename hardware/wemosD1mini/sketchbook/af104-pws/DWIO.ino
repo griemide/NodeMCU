@@ -87,7 +87,9 @@ void DweetIOmessaging(){
   }
   // Serial.print(__func__); Serial.print(": SecondsElapsed: "); Serial.println(SecondsElapsed);
   // Serial.print(__func__); Serial.print(": TimeElapsed: "); Serial.println(TimeElapsed);
- 
+
+
+  int LogActive = (telnetActive) ? 1 : 0 ; // log active means telnet server establised for mirror of Serial out
   
   //
   // send the request to the server https://dweet.io/follow/af104-pws
@@ -114,6 +116,8 @@ void DweetIOmessaging(){
                       + "Time_Elapsed=" + TimeElapsed  //DWIO.ino
                       + "&" 
                       + "Free_Heap=" + ESP.getFreeHeap() 
+                      + "&" 
+                      + "Log_Active=" + LogActive //
                       + "&" 
                       + "OTA_Host_IP=" + ipAddressDevice  // WLAN.ino 
                    // + "&" 
