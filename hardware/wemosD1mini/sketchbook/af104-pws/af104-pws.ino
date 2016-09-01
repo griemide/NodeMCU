@@ -11,6 +11,7 @@
  *  Modified: 2016-08-19 (Dweet IO Reporting modified)
  *  Modified: 2016-08-29 (Telnet support added)
  *  Modified: 2016-08-30 (Serial logging support added)
+ *  Modified: 2016-09-01 (Simple Mail Transfer Protocol added)
  *  
  * MODULES:
  *   DWIO.ino version 16.8.19 (DWeet.IO data monitoring)
@@ -20,6 +21,7 @@
  *   PING.ino version 16.6.23 (PING clients and hosts)
  *   PWSM.ino version 16.8.8  (Personal Weather Station Messaging)
  *   SLOG.ino version 16.8.20 (Serial Log support)
+ *   SMTP.ino version 16.9.1  (E-Mail support)
  *   SNTP.ino version 16.6.27 (Simple Network Time Protocol)
  *   TNET.ino version 16.8.29 (Telnet support module)
  *   WLAN.ino version 16.8.18 (connect to local Wireless LAN) 
@@ -87,6 +89,7 @@ void PingRemoteServer();
 void DweetIOmessaging();
 void PWSMessageUpdate();
 void EspDeepSleepMode();
+byte sendEmailViaSMTP(); 
 
 void runNetworkChecks();
 void runUpdatePWSdata();
@@ -119,6 +122,8 @@ void setup()
   timer.every(periodRunNetworkChecks, runNetworkChecks);
   timer.every(periodRunUpdatePWSdata, runUpdatePWSdata);
   timer.every(periodRunTelnetAliveHB, runTelnetAliveHB);
+
+  byte ret = sendEmailViaSMTP(); // for test purposes only
 
 }
 
