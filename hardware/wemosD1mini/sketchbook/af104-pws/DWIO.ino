@@ -1,6 +1,6 @@
 /*
  * SKETCH:
- *  DWIO.ino  (DWeet IO support module)
+ *  DWIO.ino  (DWeet IO support module) 
  * 
  *  (c) 2016, Michael Gries
  *  Creation: 2016-06-28 (based on SimpleTestDweetIO.ino)
