@@ -7,6 +7,7 @@
  *  Modified: 2016-06-23 (editorial changes)
  *  Modified: 2016-06-25 (sketch name added - see __FILE__ handling in main application)
  *  Modified: 2016-07-03 (DEBUG: Serial.setDebugOutput(true) added)
+ *  Modified: 2016-10-23 (Reset reason set to public)
  * 
  * PREREQUISITES:
  *   uses BUILTIN_LED
@@ -25,18 +26,19 @@
 const int   SERIAL_BAUDRATE     = 74880; // Wemos D1 mini default
 void  compileTimeUnix();
 void  compileDate();
+String resetReason; //SMTP.ino
 
 void InitializeModule(char* sketchName) 
 {
   pinMode(BUILTIN_LED, OUTPUT);  // initialize onboard LED 
   analogWrite(BUILTIN_LED, LED_BRIGHTNESS_FULL);
+  resetReason = ESP.getResetReason();
   Serial.begin(SERIAL_BAUDRATE);  delay(10);
   if(WIFI_DEBUG) {
     Serial.setDebugOutput(true); // prints additional information of WiFi connection
   }
   Serial.println();
-  Serial.print(__func__); Serial.print(": reset by ");
-  Serial.println(ESP.getResetReason()); //Deep-Sleep Wake OR  External System
+  Serial.print(__func__); Serial.print(": reset by "); Serial.println(resetReason); 
   Serial.print(__func__); Serial.print(": sketch "); Serial.println(sketchName);
   Serial.print(__func__); Serial.print(": used IDE Arduino 1.6.7  \n"); 
   Serial.print(__func__); Serial.print(": Compiled on "); 

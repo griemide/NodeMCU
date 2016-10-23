@@ -4,7 +4,8 @@
  * 
  *  (c) 2016, Michael Gries
  *  Creation: 2016-09-01 (based on SimpleEmail Client.ino)
- *  Modified: 2016-09-02 (feasability study only )
+ *  Modified: 2016-09-02 (feasability study only)
+ *  Modified: 2016-10-23 (reboor reason added to email)
  * 
  * PREREQUISITES:
  *   existing email account - used provider: https://webmailer.1und1.de/ 
@@ -23,6 +24,8 @@
 #include <ESP8266WiFi.h>
 
 char server[] = "smtp.1und1.de";
+char smtp_from[] = "esp8266@gries.name";
+char smtp_subject[] = "Device reboot";
 int  portSMTP = 23;
 
 WiFiClient client;
@@ -75,16 +78,21 @@ byte sendEmailViaSMTP(){
   // change to recipient address
   client.println(F("To:  michael@gries.name"));
   // change to your address
-  client.println(F("From: esp8266@gries.name"));
-  client.println(F("Subject: ESP8266 email test\r\n"));
+  client.print(F("From: "));
+  client.println(smtp_from);
+  client.print(F("Subject: "));
+  client.print(smtp_subject);
+  client.println("\r\n");  // required ?
   client.println(F("Device: Wemos D1 mini"));
+  client.print(F("Reason: "));
+  client.println(resetReason);
   client.print(F("IP: "));
   client.println(WiFi.localIP());
   client.print(F("RSSI: "));
   client.print(WiFi.RSSI());
   client.println(F(" dBm"));
   client.print(F("Sketch: "));
-  client.println(__FILE__);
+  client.println(sketchName);
   client.print(F("Build: "));
   client.println(__DATE__);
 

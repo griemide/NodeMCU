@@ -12,19 +12,20 @@
  *  Modified: 2016-08-29 (Telnet support added)
  *  Modified: 2016-08-30 (Serial logging support added)
  *  Modified: 2016-09-01 (Simple Mail Transfer Protocol added)
+ *  Modified: 2016-10-23 (email content improved)
  *  
  * MODULES:
- *   DWIO.ino version 16.8.19 (DWeet.IO data monitoring)
- *   EDSM.ino version 16.6.25 (Esp8266 Deep Sleep Mode)
- *   INIT.ino version 16.7.3  (INITialze hardware)
- *   OTAU.ino version 16.8.19 (Over The Air Update)
- *   PING.ino version 16.6.23 (PING clients and hosts)
- *   PWSM.ino version 16.8.8  (Personal Weather Station Messaging)
- *   SLOG.ino version 16.8.20 (Serial Log support)
- *   SMTP.ino version 16.9.1  (E-Mail support)
- *   SNTP.ino version 16.6.27 (Simple Network Time Protocol)
- *   TNET.ino version 16.8.29 (Telnet support module)
- *   WLAN.ino version 16.8.18 (connect to local Wireless LAN) 
+ *   DWIO.ino version 16.8.19  (DWeet.IO data monitoring)
+ *   EDSM.ino version 16.6.25  (Esp8266 Deep Sleep Mode)
+ *   INIT.ino version 16.10.23 (INITialze hardware)
+ *   OTAU.ino version 16.8.19  (Over The Air Update)
+ *   PING.ino version 16.10.23 (PING clients and hosts)
+ *   PWSM.ino version 16.8.8   (Personal Weather Station Messaging)
+ *   SLOG.ino version 16.8.20  (Serial Log support)
+ *   SMTP.ino version 16.10.23 (E-Mail support)
+ *   SNTP.ino version 16.6.27  (Simple Network Time Protocol)
+ *   TNET.ino version 16.8.29  (Telnet support module)
+ *   WLAN.ino version 16.8.18  (connect to local Wireless LAN) 
  * 
  * PREREQUISITES:
  *   ESP8266 based hardware (NodeMCU or Wemos D1 or Wemos D1 mini)
@@ -60,13 +61,16 @@ ESP8266HTTPUpdateServer httpUpdater;
 Timer timer;   
 
 ////// DECLARATIONS
-char   FilenameWithPath[] = __FILE__;
-const int   LED_BRIGHTNESS_LOW      = 1023 - 23 ;   // 0..1023 (0=full)
-const int   LED_BRIGHTNESS_HIGH     = 512 + 256 ;   // 0..1023 (0=full)
-const int   LED_BRIGHTNESS_FULL     = 0;            // 0..1023 (0=full)
+char      FilenameWithPath[] = __FILE__;
+char*     sketchName;
+String    IP; // WLAN.ino, STMP.ino
+const int LED_BRIGHTNESS_LOW      = 1023 - 23 ;   // 0..1023 (0=full)
+const int LED_BRIGHTNESS_HIGH     = 512 + 256 ;   // 0..1023 (0=full)
+const int LED_BRIGHTNESS_FULL     = 0;            // 0..1023 (0=full)
 
 String FileCompiled;
 int    FileCompiledUnix;
+
 float  gfTempOutdoor = 15.5; // °Celsius for Dweet IO reporting
 int    periodRunNetworkChecks = 1000 * 15;  // every 15 seconds
 int    periodRunUpdatePWSdata = 1000 * 60;  // every minute
@@ -105,7 +109,7 @@ void setup()
 {
   byte b = sizeof(FilenameWithPath);
   while ( (b > 0) && (FilenameWithPath[b] != '\\')) b--;
-  char *sketchName = &FilenameWithPath[++b];
+  sketchName = &FilenameWithPath[++b];
   
   InitializeModule(sketchName); // ESP-12E based boards
   

@@ -25,6 +25,7 @@
 const char* ssid                = "HP LaserJet P1505n";
 const char* password            = "vQ1tASKOUu";
 
+
 void ConnectingToWLAN()
 {
   Serial.print(__func__); Serial.print(": SSID: "); Serial.print(ssid); Serial.print(" ..."); 
@@ -33,10 +34,11 @@ void ConnectingToWLAN()
     delay(100);  Serial.print(".");
   }
   IPAddress deviceIP = WiFi.localIP();
+  IP = deviceIP.toString();
   sprintf(deviceIPstring, "%d.%d.%d.%d", deviceIP[0], deviceIP[1], deviceIP[2], deviceIP[3]);
   ipAddressDevice = (int)deviceIP[3];
   Serial.println();
-  Serial.print(__func__); Serial.print(": IP: "); Serial.print(deviceIP);
+  Serial.print(__func__); Serial.print(": IP: "); Serial.print(IP);
   Serial.print(" RSSI: "); Serial.print(WiFi.RSSI()); Serial.print(" dBm (");
   Serial.print(millis()); Serial.println(" ms after reset)"); 
 }
