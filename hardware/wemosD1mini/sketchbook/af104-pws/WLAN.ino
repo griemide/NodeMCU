@@ -6,6 +6,7 @@
  *  Creation: 2016-06-22 (based on SimpleDeepSleepTest.ino)
  *  Modified: 2016-06-27 (RSSI monitoring added)
  *  Modified: 2016-08-18 (received LocalIP prepared to be used by DWIO.ino)
+ *  Modified: 2016-10-24 (MAC address evaluation / presentation added)
  * 
  * PREREQUISITES:
  *   uses predefined WiFi networks
@@ -26,6 +27,13 @@ const char* ssid                = "HP LaserJet P1505n";
 const char* password            = "vQ1tASKOUu";
 
 
+void GetMACaddress()
+{
+  byte mac[6];
+  WiFi.macAddress(mac);
+  sprintf(deviceMACaddress, "%2x:%2x:%2x:%2x:%2x:%2x",mac[0],mac[1],mac[2],mac[3],mac[4],mac[5]);
+}
+ 
 void ConnectingToWLAN()
 {
   Serial.print(__func__); Serial.print(": SSID: "); Serial.print(ssid); Serial.print(" ..."); 
@@ -41,6 +49,8 @@ void ConnectingToWLAN()
   Serial.print(__func__); Serial.print(": IP: "); Serial.print(IP);
   Serial.print(" RSSI: "); Serial.print(WiFi.RSSI()); Serial.print(" dBm (");
   Serial.print(millis()); Serial.println(" ms after reset)"); 
+  GetMACaddress();
+  Serial.print(__func__); Serial.print(": MAC: "); Serial.println(deviceMACaddress); 
 }
 
 

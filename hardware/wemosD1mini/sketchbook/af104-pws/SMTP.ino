@@ -6,6 +6,7 @@
  *  Creation: 2016-09-01 (based on SimpleEmail Client.ino)
  *  Modified: 2016-09-02 (feasability study only)
  *  Modified: 2016-10-23 (reboor reason added to email)
+ *  Modified: 2016-10-24 (MAC address added to email)
  * 
  * PREREQUISITES:
  *   existing email account - used provider: https://webmailer.1und1.de/ 
@@ -25,7 +26,7 @@
 
 char server[] = "smtp.1und1.de";
 char smtp_from[] = "esp8266@gries.name";
-char smtp_subject[] = "Device reboot";
+char smtp_subject[] = "Device reboot ";
 int  portSMTP = 23;
 
 WiFiClient client;
@@ -82,6 +83,7 @@ byte sendEmailViaSMTP(){
   client.println(smtp_from);
   client.print(F("Subject: "));
   client.print(smtp_subject);
+  client.print(deviceMACaddress);  //WLAN.ino
   client.println("\r\n");  // required ?
   client.println(F("Device: Wemos D1 mini"));
   client.print(F("Reason: "));

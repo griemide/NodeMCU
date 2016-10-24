@@ -12,7 +12,7 @@
  *  Modified: 2016-08-29 (Telnet support added)
  *  Modified: 2016-08-30 (Serial logging support added)
  *  Modified: 2016-09-01 (Simple Mail Transfer Protocol added)
- *  Modified: 2016-10-23 (email content improved)
+ *  Modified: 2016-10-24 (email content improved)
  *  
  * MODULES:
  *   DWIO.ino version 16.8.19  (DWeet.IO data monitoring)
@@ -25,7 +25,7 @@
  *   SMTP.ino version 16.10.23 (E-Mail support)
  *   SNTP.ino version 16.6.27  (Simple Network Time Protocol)
  *   TNET.ino version 16.8.29  (Telnet support module)
- *   WLAN.ino version 16.8.18  (connect to local Wireless LAN) 
+ *   WLAN.ino version 16.10.24 (connect to local Wireless LAN) 
  * 
  * PREREQUISITES:
  *   ESP8266 based hardware (NodeMCU or Wemos D1 or Wemos D1 mini)
@@ -80,6 +80,7 @@ int    pingAverageRemote;
 int    SecondsElapsed;
 int    ipAddressDevice = 234;
 char   deviceIPstring[24];
+char   deviceMACaddress[18];
 char   logMessageBuffer[61];
 bool   telnetActive = false;  
 
