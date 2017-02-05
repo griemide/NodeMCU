@@ -14,7 +14,7 @@
  *  Modified: 2016-09-01 (Simple Mail Transfer Protocol added)
  *  Modified: 2016-10-24 (email content improved)
  *  Modified: 2017-02-04 (INIT corrected regarding IDE version printing)
- *  Modified: 2017-02-05 (JSON decoding added)
+ *  Modified: 2017-02-05 (JSON decoding module added for PWSM.ino)
  *  
  * MODULES:
  *   DWIO.ino version 16.8.19  (DWeet.IO data monitoring)
@@ -23,7 +23,7 @@
  *   JSON.ino version 17.2.5   (GET request to Arduino Yun VRC Server)
  *   OTAU.ino version 16.8.19  (Over The Air Update)
  *   PING.ino version 16.10.23 (PING clients and hosts)
- *   PWSM.ino version 16.8.8   (Personal Weather Station Messaging)
+ *   PWSM.ino version 17.2.5   (Personal Weather Station Messaging)
  *   SLOG.ino version 16.8.20  (Serial Log support)
  *   SMTP.ino version 16.10.23 (E-Mail support)
  *   SNTP.ino version 16.6.27  (Simple Network Time Protocol)
