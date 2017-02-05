@@ -7,6 +7,7 @@
  *  Modified: 2016-09-02 (feasability study only)
  *  Modified: 2016-10-23 (reboor reason added to email)
  *  Modified: 2016-10-24 (MAC address added to email)
+ *  Modified: 2017-02-05 (eRcv function name printing added)
  * 
  * PREREQUISITES:
  *   existing email account - used provider: https://webmailer.1und1.de/ 
@@ -36,6 +37,7 @@ byte eRcv();
 
 byte sendEmailViaSMTP(){
   Serial.print(__func__);  
+  //const char *RecvEmailViaSMTP = __func__; // __func__ workaround for eRev routine
   Serial.println(F(": establising connection to server (smtp.1und1.de) via port 587 ..."));
   byte thisByte = 0;
   byte respCode;
@@ -126,10 +128,11 @@ byte eRcv()
   }
 
   respCode = client.peek();
+  Serial.print("RecvEmailViaSMTP");  Serial.print(": ");
   while (client.available())
   {
     thisByte = client.read();
-    Serial.write(thisByte);
+     Serial.write(thisByte);
   }
 
   if (respCode >= '4')

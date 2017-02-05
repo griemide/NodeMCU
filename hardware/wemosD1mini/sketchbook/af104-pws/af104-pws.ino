@@ -25,7 +25,7 @@
  *   PING.ino version 16.10.23 (PING clients and hosts)
  *   PWSM.ino version 17.2.5   (Personal Weather Station Messaging)
  *   SLOG.ino version 16.8.20  (Serial Log support)
- *   SMTP.ino version 16.10.23 (E-Mail support)
+ *   SMTP.ino version 17.2.5   (E-Mail support added 16.10.23)
  *   SNTP.ino version 16.6.27  (Simple Network Time Protocol)
  *   TNET.ino version 16.8.29  (Telnet support module)
  *   WLAN.ino version 16.10.24 (connect to local Wireless LAN) 
