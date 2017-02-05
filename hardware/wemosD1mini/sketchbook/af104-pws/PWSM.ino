@@ -30,7 +30,7 @@
 #define  WU_SERVER   "weatherstation.wunderground.com"  // see example above
 #define  PWS_ID      "IBADHERS8"                        // check your WU login profile
 #define  PWS_PWD     "1tqx3ixw"                         // check your WU login profile
-#define  PWS_VERSION "17.2.5"                           // udtae according modified date of this file
+#define  PWS_VERSION "17.2.5"                           // update according modified date of this file
 #define  PWS_ACTION  "updateraw"                        // sending raw data (default)
 
 ////  DECLARATIONS
