@@ -8,6 +8,7 @@
  *  Modified: 2016-06-25 (sketch name added - see __FILE__ handling in main application)
  *  Modified: 2016-07-03 (DEBUG: Serial.setDebugOutput(true) added)
  *  Modified: 2016-10-23 (Reset reason set to public)
+ *  Modified: 2017-02-05 (Arduno Complier IDE version calulation added)
  * 
  * PREREQUISITES:
  *   uses BUILTIN_LED
@@ -20,12 +21,22 @@
  *   
  */
 
+#include <TimeLib.h>      // by Paul Stoffregen, not included in the Arduino IDE !!!
+#include <Timezone.h>     // by Jack Christensen, not included in the Arduino IDE !!!
+
 #define WIFI_DEBUG false
 
 // DECLARATIONS
+
+String    IP; // WLAN.ino
+const int LED_BRIGHTNESS_LOW      = 1023 - 23 ;   // 0..1023 (0=full)
+const int LED_BRIGHTNESS_HIGH     = 512 + 256 ;   // 0..1023 (0=full)
+const int LED_BRIGHTNESS_FULL     = 0;            // 0..1023 (0=full)
+
 const int   SERIAL_BAUDRATE     = 74880; // Wemos D1 mini default
 void  compileTimeUnix();
 void  compileDate();
+void  printIDEversion(void);
 String resetReason; //SMTP.ino
 
 void InitializeModule(char* sketchName) 
@@ -40,7 +51,7 @@ void InitializeModule(char* sketchName)
   Serial.println();
   Serial.print(__func__); Serial.print(": reset by "); Serial.println(resetReason); 
   Serial.print(__func__); Serial.print(": sketch "); Serial.println(sketchName);
-  Serial.print(__func__); Serial.print(": used IDE Arduino 1.6.7  \n"); 
+  Serial.print(__func__); Serial.print(": used Arduino IDE version "); printIDEversion(); 
   Serial.print(__func__); Serial.print(": Compiled on "); 
   Serial.print(__DATE__); Serial.print(" "); Serial.println(__TIME__);
   //FileCompiled = __DATE__; FileCompiled.replace(" ","-");
@@ -74,8 +85,8 @@ void compileTimeUnix(void)  // unix epoche
   FileCompiledUnix = (int)t + FUDGE;        //add fudge factor to allow for compile time
 }
 
-//Function to return the compile date and time as a time_t value
-void compileDate(void)  // YY.M.D
+// Function to return the compile date and time as a time_t value
+void compileDate(void)  // used format: YY.M.D
 {
   char *compDate = __DATE__,  *months = "JanFebMarAprMayJunJulAugSepOctNovDec";
   char chMon[3], *mon;
@@ -90,4 +101,18 @@ void compileDate(void)  // YY.M.D
   FileCompiled = (String)DATE_YMD;        
 }
 
+// 2017-02-05: IDE version calculation added due to define ARDUINO
+// Serial.println(ARDUINO, DEC); i.e. gets 10801 for version 1.8.1
+// http://forum.arduino.cc/index.php?topic=158014.0
+// see GCC defines
+void printIDEversion(void)
+{
+  String Version; Version = ARDUINO;
+  String GNUC; String GNUC_MINOR; String GNUC_PATCHLEVEL;
+  GNUC = Version[0];
+  GNUC_MINOR = Version[2];
+  GNUC_PATCHLEVEL =  Version[4];
+  Version = GNUC +  "." + GNUC_MINOR + "." + GNUC_PATCHLEVEL;
+  Serial.println(Version);
+}
 
