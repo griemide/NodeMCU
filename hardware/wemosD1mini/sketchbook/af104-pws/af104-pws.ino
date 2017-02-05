@@ -13,11 +13,14 @@
  *  Modified: 2016-08-30 (Serial logging support added)
  *  Modified: 2016-09-01 (Simple Mail Transfer Protocol added)
  *  Modified: 2016-10-24 (email content improved)
+ *  Modified: 2017-02-04 (INIT corrected regarding IDE version printing)
+ *  Modified: 2017-02-05 (JSON decoding added)
  *  
  * MODULES:
  *   DWIO.ino version 16.8.19  (DWeet.IO data monitoring)
  *   EDSM.ino version 16.6.25  (Esp8266 Deep Sleep Mode)
- *   INIT.ino version 16.10.23 (INITialze hardware)
+ *   INIT.ino version 17.2.4   (INITialze hardware)
+ *   JSON.ino version 17.2.5   (GET request to Arduino Yun VRC Server)
  *   OTAU.ino version 16.8.19  (Over The Air Update)
  *   PING.ino version 16.10.23 (PING clients and hosts)
  *   PWSM.ino version 16.8.8   (Personal Weather Station Messaging)
@@ -64,6 +67,8 @@ Timer timer;
 char      FilenameWithPath[] = __FILE__;
 char*     sketchName;
 String    IP; // WLAN.ino, STMP.ino
+String    PWStempAF104; // stored value received by Arduino Yun AF104 server in JSON.ino
+bool      PWStempValid; // evaluated in JSON.ino 
 const int LED_BRIGHTNESS_LOW      = 1023 - 23 ;   // 0..1023 (0=full)
 const int LED_BRIGHTNESS_HIGH     = 512 + 256 ;   // 0..1023 (0=full)
 const int LED_BRIGHTNESS_FULL     = 0;            // 0..1023 (0=full)
@@ -92,6 +97,7 @@ void RunTelnetSession();
 void PingLocalClients();
 void PingRemoteServer();
 void DweetIOmessaging();
+void GetAF104tempData();
 void PWSMessageUpdate();
 void EspDeepSleepMode();
 byte sendEmailViaSMTP(); 
@@ -122,7 +128,9 @@ void setup()
   
   GetTimeNTPServer(); // use NTP server time for timestamp logging
 
-  // EspDeepSleepMode(); // activate ESP-12E Deep-Sleep Wake mode
+  /*
+  EspDeepSleepMode(); // activate ESP-12E Deep-Sleep Wake mode
+  */
 
   timer.every(periodRunNetworkChecks, runNetworkChecks);
   timer.every(periodRunUpdatePWSdata, runUpdatePWSdata);
@@ -155,6 +163,7 @@ void runNetworkChecks()
 void runUpdatePWSdata()
 {
   analogWrite(BUILTIN_LED, LED_BRIGHTNESS_FULL);
+  GetAF104tempData(); // request AUSSENTEMPERATUR of AF104 Arduino Yun server
   PWSMessageUpdate(); // sent Personal Weather Station PWS) Message to WU Server 
   analogWrite(BUILTIN_LED, LED_BRIGHTNESS_LOW);
 }

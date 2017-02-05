@@ -7,6 +7,7 @@
  *  Modified: 2016-07-31 (feasability study - basis tests by using wiki.wundergrund.com example)
  *  Modified: 2016-08-03 (outdoor temperature added)
  *  Modified: 2016-08-08 (outdoor temperature simulation added)
+ *  Modified: 2017-02-05 (outdoor temperature of AF104 server added)
  * 
  * PREREQUISITES:
  *   uses predefined local WiFi network
@@ -29,7 +30,7 @@
 #define  WU_SERVER   "weatherstation.wunderground.com"  // see example above
 #define  PWS_ID      "IBADHERS8"                        // check your WU login profile
 #define  PWS_PWD     "1tqx3ixw"                         // check your WU login profile
-#define  PWS_VERSION "16.8.8"                           // udtae according modified date of this file
+#define  PWS_VERSION "17.2.5"                           // udtae according modified date of this file
 #define  PWS_ACTION  "updateraw"                        // sending raw data (default)
 
 ////  DECLARATIONS
@@ -60,11 +61,20 @@ void PWSMessageUpdate(){
   sprintf(TimeStamp, "%04d-%02d-%02d+%02d%s%02d%s%02d", year(), month(), day(), hour()-2, "%3A", minute(), "%3A", second() );
   // Serial.print(__func__); Serial.print(": TimeStamp (debug info): "); Serial.println(TimeStamp); // for debug purpose only 
   // debug test result: 2016-07-31+19%3A17%3A27
-
   //float HMS = hour()+minute()/60.0;                 // https://de.wikipedia.org/wiki/Industrieminute
   //float TcDelta = HMS * 15.0;                       // i.e. 24 hour == 360°  (for sine cycle below)
   int iSec = second()+minute()*60+hour()*3600;
-  Tc = TempOutdoorDefault + sin(2*pi*iSec/SecondsPerDay + 3*pi/2) * 3;  // i.e. one periodic cycle per day (variies around giTempOutdoor for test purposes)
+
+  if (PWStempValid)
+  {
+    Serial.print(__func__); Serial.print(": PWStempAF104 (debug info): "); Serial.println(PWStempAF104); // for debug purpose only 
+    Tc = PWStempAF104.toFloat();
+  } 
+  else
+  {
+    Tc = TempOutdoorDefault + sin(2*pi*iSec/SecondsPerDay + 3*pi/2) * 3;  // i.e. one periodic cycle per day (variies around giTempOutdoor for test purposes)
+  }
+  
   Tf = Tc * (9.0/5.0) + 32.0;                         // https://de.wikipedia.org/wiki/Grad_Fahrenheit
 
   signed char minStringWidthIncDecimalPoint = 4;
@@ -76,7 +86,6 @@ void PWSMessageUpdate(){
   
   String PWStemp(sTf);                // i.e. one periodic cycle per day (variies around giTempOutdoor for test purposes)
   
-
 
   char PWStempDebug[40]; 
   sprintf(PWStempDebug, "iSec: %d Tc: %s Tf: %s", iSec, sTc, sTf );

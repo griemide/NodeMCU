@@ -21,17 +21,10 @@
  *   
  */
 
-#include <TimeLib.h>      // by Paul Stoffregen, not included in the Arduino IDE !!!
-#include <Timezone.h>     // by Jack Christensen, not included in the Arduino IDE !!!
 
 #define WIFI_DEBUG false
 
 // DECLARATIONS
-
-String    IP; // WLAN.ino
-const int LED_BRIGHTNESS_LOW      = 1023 - 23 ;   // 0..1023 (0=full)
-const int LED_BRIGHTNESS_HIGH     = 512 + 256 ;   // 0..1023 (0=full)
-const int LED_BRIGHTNESS_FULL     = 0;            // 0..1023 (0=full)
 
 const int   SERIAL_BAUDRATE     = 74880; // Wemos D1 mini default
 void  compileTimeUnix();
